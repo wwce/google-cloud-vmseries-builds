@@ -59,7 +59,7 @@ This build uses Google Cloud Network Connectivity Center to provide full route p
 This build is the same as the **VM-Series Hub and Spoke - Common Firewalls** except we connect a remote network to a Cloud VPN gateway in Google Cloud.  The build demonstrates how to route and inspect the traffic with the VM-Series firewalls. 
 
 <p align="center">
-    <img src="vmseries-remote-network-cloud-vpn/images/image1.png" width="800">
+    <img src="vmseries-cloud-vpn/images/image1.png" width="800">
 </p>
 
 ## Support Policy
