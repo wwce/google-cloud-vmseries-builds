@@ -6,7 +6,7 @@ The purpose of this directory is to provide resources to quickly deploy and lear
 Below is a summary of the builds to help you select the best architecture for your use-case.   A full deployment guide is included as part of the README.md in each build directory.
 
 ### VM-Series Global VPC
-This [build](https://github.com/wwce/google-cloud-vmseries-builds/tree/main/architecture-labs/vmseries-global-vpc) demonstrates how to use Google Cloud network tags to steer outbound traffic to internal TCP/UDP load balancers that frontend regionally distributed VM-Series firewalls.  
+This [build](https://github.com/wwce/google-cloud-vmseries-builds/tree/main/architecture-demos/vmseries-global-vpc) demonstrates how to use Google Cloud network tags to steer outbound traffic to internal TCP/UDP load balancers that frontend regionally distributed VM-Series firewalls.  
 
 
 <p align="center">
