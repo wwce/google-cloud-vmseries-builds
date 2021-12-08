@@ -249,7 +249,7 @@ You have completed the lab!  You have demonstrated how to visualize internet inb
 
 ## (Optional) Destroy Environment
 
-If you would like to destroy the environment, from the directory `vmseries-hub-spoke-common` in Google Cloud shell, enter the following commands into Google Cloud Shell from the directory.
+If you would like to destroy the environment, from the directory `vmseries-hub-spoke` in Google Cloud shell, enter the following commands into Google Cloud Shell from the directory.
 
 ```
 terraform destroy -auto-approve
