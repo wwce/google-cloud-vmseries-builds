@@ -10,7 +10,7 @@ module "bootstrap_region0" {
 }
 
 module "vmseries_region0" {
-  source = "../modules/vmseries/"
+  source = "../modules/vmseries_unmanaged_ig/"
 
   ssh_key               = fileexists(var.public_key_path) ? "admin:${file(var.public_key_path)}" : ""
   image_name            = var.fw_image_name

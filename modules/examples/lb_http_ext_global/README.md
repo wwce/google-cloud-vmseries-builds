@@ -59,7 +59,7 @@ Setting `depends_on` doesn't seem to solve this deficiency. In particular the GL
 | <a name="module_extlb"></a> [extlb](#module\_extlb) | ../../modules/lb_tcp_external/ |  |
 | <a name="module_glb"></a> [glb](#module\_glb) | ../../modules/lb_http_ext_global |  |
 | <a name="module_ilb"></a> [ilb](#module\_ilb) | ../../modules/lb_tcp_internal |  |
-| <a name="module_vmseries"></a> [vmseries](#module\_vmseries) | ../../modules/vmseries/ |  |
+| <a name="module_vmseries"></a> [vmseries](#module\_vmseries) | ../../modules/vmseries_unmanaged_ig/ |  |
 | <a name="module_vpc"></a> [vpc](#module\_vpc) | ../../modules/vpc/ |  |
 
 ## Resources

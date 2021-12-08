@@ -2,7 +2,7 @@
 # Create firewall VPCs & subnets
 
 module "vpc_mgmt" {
-  source               = "../modules/vpc/"
+  source               = "../modules/google_vpc/"
   vpc                  = "${local.prefix}-mgmt-vpc"
   delete_default_route = false
   allowed_sources      = var.mgmt_sources
@@ -22,7 +22,7 @@ module "vpc_mgmt" {
 }
 
 module "vpc_untrust" {
-  source               = "../modules/vpc/"
+  source               = "../modules/google_vpc/"
   vpc                  = "${local.prefix}-untrust-vpc"
   delete_default_route = false
   allowed_sources      = ["0.0.0.0/0"]
@@ -40,7 +40,7 @@ module "vpc_untrust" {
 }
 
 module "vpc_trust" {
-  source               = "../modules/vpc/"
+  source               = "../modules/google_vpc/"
   vpc                  = "${local.prefix}-trust-vpc"
   delete_default_route = true
   allowed_sources      = ["0.0.0.0/0"]

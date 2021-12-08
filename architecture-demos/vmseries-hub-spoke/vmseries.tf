@@ -13,7 +13,7 @@ module "bootstrap" {
 # Create firewall VPCs & subnets
 
 module "vpc_mgmt" {
-  source               = "../modules/vpc/"
+  source               = "../modules/google_vpc/"
   vpc                  = "${random_string.main.result}-mgmt-vpc"
   delete_default_route = false
   allowed_sources      = var.mgmt_sources
@@ -29,7 +29,7 @@ module "vpc_mgmt" {
 }
 
 module "vpc_untrust" {
-  source               = "../modules/vpc/"
+  source               = "../modules/google_vpc/"
   vpc                  = "${random_string.main.result}-untrust-vpc"
   delete_default_route = false
   allowed_sources      = ["0.0.0.0/0"]
@@ -43,7 +43,7 @@ module "vpc_untrust" {
 }
 
 module "vpc_trust" {
-  source               = "../modules/vpc/"
+  source               = "../modules/google_vpc/"
   vpc                  = "${random_string.main.result}-trust-vpc"
   delete_default_route = true
   allowed_sources      = ["0.0.0.0/0"]
@@ -61,7 +61,7 @@ module "vpc_trust" {
 # Create VM-Series firewalls
 
 module "vmseries" {
-  source = "../modules/vmseries/"
+  source = "../modules/vmseries_unmanaged_ig/"
   image_name            = var.fw_image_name
   machine_type          = var.fw_machine_type
   create_instance_group = true

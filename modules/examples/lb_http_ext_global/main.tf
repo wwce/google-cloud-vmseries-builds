@@ -1,5 +1,5 @@
 module "vmseries" {
-  source = "../../modules/vmseries/"
+  source = "../../modules/vmseries_unmanaged_ig/"
 
 
   instances = {
