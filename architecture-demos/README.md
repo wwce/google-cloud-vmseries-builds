@@ -47,11 +47,11 @@ This build is the same as the **VM-Series Hub and Spoke - Common Firewalls** exc
     <img src="vmseries-hub-spoke-distributed/images/image1.png" width="500">
 </p>
 
-### VM-Series with Google Cloud Network Connectivity Center
+### VM-Series with Network Connectivity Center
 This build uses Google Cloud Network Connectivity Center to provide full route propagation between a remote network and the VM-Series firewalls.  The build shows how to create BGP sessions with the Google cloud router to propagate routes to/from the remote netowrk and the VPC network's route table. 
 
 <p align="center">
-    <img src="vmseries-hub-spoke-remote-network-cloud-vpn/images/image1.png" width="500">
+    <img src="vmseries-remote-network-ncc/images/image1.png" width="500">
 </p>
 
 
