@@ -16,14 +16,14 @@ This [build](https://github.com/wwce/google-cloud-vmseries-builds/tree/main/arch
 
 ### VM-Series Cloud IDS
 
-This [build]() demonstrates how to use the VM-Series firewall and Google Cloud IDS to provide a layered security approach for a single VPC network.  VM-Series firewalls are positioned to provide north-south prevention controls and Cloud IDS provides intra-VPC (east/west) threat detection.
+This [build](https://github.com/wwce/google-cloud-vmseries-builds/tree/main/architecture-demos/vmseries-cloud-ids) demonstrates how to use the VM-Series firewall and Google Cloud IDS to provide a layered security approach for a single VPC network.  VM-Series firewalls are positioned to provide north-south prevention controls and Cloud IDS provides intra-VPC (east/west) threat detection.
 
 <p align="center">
     <img src="vmseries-cloud-ids/images/image1.png" width="800">
 </p>
 
 ### VM-Series Hub and Spoke - Common Firewalls
-This build demonstrates how to use a common set of VM-Series firewalls to secure internet inbound, internet outbound, and east-west traffic for a Google Cloud hub and spoke architecture.  This build focuses on how various traffic flows traverse through the VM-Series firewall (or hub) for Google peered VPC networks (or spokes).  You will also learn how to leverage Google Cloud network load balancers to provide horizontal scale and cross zonal redundancy to your own VM-Series deployments. 
+This [build](https://github.com/wwce/google-cloud-vmseries-builds/tree/main/architecture-demos/vmseries-hub-spoke) demonstrates how to use a common set of VM-Series firewalls to secure internet inbound, internet outbound, and east-west traffic for a Google Cloud hub and spoke architecture.  This build focuses on how various traffic flows traverse through the VM-Series firewall (or hub) for Google peered VPC networks (or spokes).  You will also learn how to leverage Google Cloud network load balancers to provide horizontal scale and cross zonal redundancy to your own VM-Series deployments. 
 
 <p align="center">
     <img src="vmseries-hub-spoke/images/image1.png" width="800">
