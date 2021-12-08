@@ -29,4 +29,12 @@ locals {
 
 
 
+hub-spoke-vmseries-common
+hub-spoke-vmseries-common-autoscale
+hub-spoke-vmseries-distributed
+hub-spoke-vmseries-distributed-autoscale
 
+
+
+network-connectivity-center
+hub-spoke-common-vmseries
