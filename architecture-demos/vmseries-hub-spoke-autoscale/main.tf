@@ -18,23 +18,11 @@ data "google_compute_zones" "main" {
 }
 
 resource "random_string" "main" {
-  length      = 5
-  min_lower   = 5
+  length      = 4
+  min_lower   = 4
   special     = false
 }
 
 locals {
-  prefix = "mrm01" #random_string.main.result
+  prefix = random_string.main.result
 }
-
-
-
-hub-spoke-vmseries-common
-hub-spoke-vmseries-common-autoscale
-hub-spoke-vmseries-distributed
-hub-spoke-vmseries-distributed-autoscale
-
-
-
-network-connectivity-center
-hub-spoke-common-vmseries
