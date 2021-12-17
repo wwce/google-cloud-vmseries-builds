@@ -98,10 +98,7 @@ module "extlb" {
       port_range = 80
     },
     ("rule1") = {
-      port_range = 221
-    },
-    ("rule2") = {
-      port_range = 222
+      port_range = 22
     }
   }
 }
