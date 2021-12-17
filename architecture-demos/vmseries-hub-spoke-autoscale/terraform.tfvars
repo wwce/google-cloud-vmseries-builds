@@ -2,8 +2,9 @@
 #panorama_device_group   = ""
 #panorama_template_stack = ""
 #panorama_vm_auth_key    = ""
+#project_id              = ""
 
-project_id              = null
+#-----------------------------------------------
 public_key_path         = "~/.ssh/gcp-demo.pub"
 region                  = "us-east4"
 fw_image_uri            = "https://www.googleapis.com/compute/v1/projects/paloaltonetworksgcp-public/global/images/vmseries-flex-bundle1-1010"
