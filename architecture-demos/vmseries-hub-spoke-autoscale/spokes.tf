@@ -129,10 +129,10 @@ resource "google_compute_instance" "spoke2_vm1" {
 }
 
 
-output spoke1-WEB-SERVER-IP {
-  value = google_compute_instance.spoke1_vm1.network_interface.0.network_ip
-}
+# output spoke1-WEB-SERVER-IP {
+#   value = google_compute_instance.spoke1_vm1.network_interface.0.network_ip
+# }
 
-output spoke2-JUMP-SERVER-IP {
-  value = google_compute_instance.spoke2_vm1.network_interface.0.network_ip
-}
+# output spoke2-JUMP-SERVER-IP {
+#   value = google_compute_instance.spoke2_vm1.network_interface.0.network_ip
+# }
