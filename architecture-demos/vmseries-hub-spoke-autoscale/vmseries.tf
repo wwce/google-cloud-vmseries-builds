@@ -94,10 +94,10 @@ module "extlb" {
   health_check_http_request_path = "/"
 
   rules = {
-    ("rule0") = {
+    ("spoke1-web-80") = {
       port_range = 80
     },
-    ("rule1") = {
+    ("spoke2-jump-22") = {
       port_range = 22
     }
   }
