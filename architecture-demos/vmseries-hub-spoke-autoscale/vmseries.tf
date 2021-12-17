@@ -3,7 +3,7 @@
 module "iam_service_account" {
   source = "../../modules/panw_iam_service_account/"
 
-  project_id         = var.project_id
+  project_id         = data.google_client_config.main.project
   service_account_id = "${local.prefix}-panw-service-account"
 }
 
@@ -13,7 +13,7 @@ module "iam_service_account" {
 module "autoscale" {
   source = "../../modules/vmseries_managed_ig/"
 
-  project_id = var.project_id
+  project_id = data.google_client_config.main.project
 
   zones = {
     zone1 = data.google_compute_zones.main.names[0]
@@ -75,7 +75,7 @@ module "autoscale" {
 module "intlb" {
   source = "../../modules/google_lb_internal/"
 
-  name       = "${local.prefix}-intlb"
+  name       = "${local.prefix}-intlb-vmseries"
   network    = module.vpc_trust.vpc_self_link
   subnetwork = module.vpc_trust.subnet_self_link["trust-${var.region}"]
   all_ports  = true
@@ -89,7 +89,7 @@ module "intlb" {
 module "extlb" {
   source = "../../modules/google_lb_external_tcp/"
 
-  name                           = "${local.prefix}-extlb"
+  name                           = "${local.prefix}-extlb-vmseries"
   health_check_http_port         = 80
   health_check_http_request_path = "/"
 

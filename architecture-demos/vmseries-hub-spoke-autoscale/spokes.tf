@@ -144,7 +144,7 @@ resource "google_compute_health_check" "spoke1_lb" {
 }
 
 resource "google_compute_region_backend_service" "spoke1_lb" {
-  name          = "${local.prefix}-backend-spoke1"
+  name          = "${local.prefix}-intlb-spoke1"
   region        = var.region
   health_checks = [google_compute_health_check.spoke1_lb.id]
   network       = module.vpc_spoke1.vpc_id
