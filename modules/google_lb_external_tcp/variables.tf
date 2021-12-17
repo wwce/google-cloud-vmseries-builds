@@ -76,7 +76,7 @@ variable health_check_http_request_path {
 
 variable health_check_http_host {
   description = "Health check http request host header, with the default adjusted to localhost to be able to check the health of the PAN-OS webui."
-  default     = "localhost"
+  default     = null
   type        = string
 }
 

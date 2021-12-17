@@ -92,7 +92,8 @@ module "extlb" {
   name                           = "${local.prefix}-extlb-vmseries"
   health_check_http_port         = 80
   health_check_http_request_path = "/"
-
+  create_health_check            = false
+  
   rules = {
     ("spoke1-web-80") = {
       port_range = 80

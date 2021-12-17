@@ -84,6 +84,7 @@ resource "google_compute_instance" "spoke1_vm1" {
 
   network_interface {
     subnetwork = module.vpc_spoke1.subnet_self_link["spoke1-${var.region}"]
+    network_ip = cidrhost(var.cidr_spoke1, 10)
   }
 
   boot_disk {
