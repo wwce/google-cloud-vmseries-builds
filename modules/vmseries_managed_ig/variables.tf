@@ -245,3 +245,10 @@ variable metadata {
 
   */
 }
+
+
+variable labels {
+  description = "A map of labels to apply to the instance template."
+  type        =  map(string)
+  default     = {}
+}

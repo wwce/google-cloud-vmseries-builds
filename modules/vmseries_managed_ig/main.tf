@@ -19,8 +19,8 @@ resource "google_compute_instance_template" "this" {
   min_cpu_platform = var.min_cpu_platform
   can_ip_forward   = true
   tags             = var.tags
-
-  metadata = var.metadata
+  labels           = var.labels
+  metadata         = var.metadata
   # metadata = {
   #   type                                 = "dhcp-client"
   #   op-command-modes                     = "mgmt-interface-swap"

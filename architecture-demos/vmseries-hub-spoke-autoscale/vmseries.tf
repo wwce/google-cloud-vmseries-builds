@@ -60,6 +60,12 @@ module "autoscale" {
     dhcp-accept-server-hostname = "yes"
     dhcp-accept-server-domain   = "yes"
   }
+  labels = {
+    vm-series-fw-template-version = "1-0-0"
+  }
+  tags = [
+    "vm-series-fw"
+  ]
 
   # Example of bootstrap via Google storage bucket (full boostrap with dynamic content installed)
   # metadata = {
@@ -93,7 +99,7 @@ module "extlb" {
   health_check_http_port         = 80
   health_check_http_request_path = "/"
   create_health_check            = false
-  
+
   rules = {
     ("spoke1-web-80") = {
       port_range = 80
