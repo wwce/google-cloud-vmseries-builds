@@ -161,12 +161,12 @@ resource "google_compute_autoscaler" "this" {
 # new ip/port that would be consumed by Panorama and automatically onboarded.
 
 resource "google_pubsub_topic" "this" {
-  name = "${var.prefix}-panos-app-topic"
+  name = "${var.deployment_name}-${var.project_id}-panorama-apps-deployment"
 }
 
 
 resource "google_pubsub_subscription" "this" {
-  name  = "${var.prefix}-panos-plugin-subscription"
+  name  = "${var.deployment_name}-${var.project_id}-panorama-plugin-subscription"
   topic = google_pubsub_topic.this.id
 }
 
