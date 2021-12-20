@@ -27,7 +27,7 @@ module "autoscale" {
   ]
 
   prefix                = "${local.prefix}-vmseries"
-  deployment_name       = "${local.prefix}-vmseries-deployment"
+  deployment_name       = local.prefix
   machine_type          = var.fw_machine_type
   ssh_key               = fileexists(var.public_key_path) ? "admin:${file(var.public_key_path)}" : ""
   image                 = var.fw_image_uri
