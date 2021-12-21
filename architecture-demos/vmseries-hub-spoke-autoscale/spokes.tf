@@ -71,7 +71,7 @@ resource "google_compute_network_peering" "trust_to_spoke2" {
 # Create spoke1 compute instances with internal load balancer
 
 resource "google_compute_instance" "spoke1_vm1" {
-  name                      = "${local.prefix}-spoke1-vm1"
+  name                      = "${local.prefix}-spoke1-web"
   machine_type              = var.spoke_vm_type
   zone                      = data.google_compute_zones.main.names[0]
   can_ip_forward            = false
@@ -102,7 +102,7 @@ resource "google_compute_instance" "spoke1_vm1" {
 # Create spoke2 compute instances. 
 
 resource "google_compute_instance" "spoke2_vm1" {
-  name                      = "${local.prefix}-spoke2-vm1"
+  name                      = "${local.prefix}-spoke2-jump"
   machine_type              = var.spoke_vm_type
   zone                      = data.google_compute_zones.main.names[0]
   can_ip_forward            = false

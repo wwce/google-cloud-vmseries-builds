@@ -1,3 +1,66 @@
+
+# --------------------------------------------------------------------------------------------------------------------------
+# Create a cloud NAT for the management VPC network.  This provides external connectivity
+# to Panorama and PANW licensing & content servers. 
+
+module "mgmt_cloud_nat" {
+  source = "terraform-google-modules/cloud-nat/google"
+  #ersion = "=1.2"
+  name                               = "${local.prefix}-mgmt"
+  router                             = "${local.prefix}-mgmt"
+  project_id                         = var.project_id
+  region                             = var.region
+  create_router                      = true
+  network                            = module.vpc_mgmt.vpc_self_link
+}
+
+# --------------------------------------------------------------------------------------------------------------------------
+# Create firewall VPCs & subnets
+module "vpc_mgmt" {
+  source               = "../../modules/google_vpc/"
+  vpc                  = "${random_string.main.result}-mgmt-vpc"
+  delete_default_route = false
+  allowed_sources      = var.mgmt_sources
+  allowed_protocol     = "TCP"
+  allowed_ports        = ["443", "22", "3978"]
+
+  subnets = {
+    "mgmt-${var.region}" = {
+      region = var.region,
+      cidr   = var.cidrs_mgmt
+    }
+  }
+}
+
+module "vpc_untrust" {
+  source               = "../../modules/google_vpc/"
+  vpc                  = "${random_string.main.result}-untrust-vpc"
+  delete_default_route = false
+  allowed_sources      = ["0.0.0.0/0"]
+
+  subnets = {
+    "untrust-${var.region}" = {
+      region = var.region,
+      cidr   = var.cidrs_untrust
+    }
+  }
+}
+
+module "vpc_trust" {
+  source               = "../../modules/google_vpc/"
+  vpc                  = "${random_string.main.result}-trust-vpc"
+  delete_default_route = true
+  allowed_sources      = ["0.0.0.0/0"]
+
+  subnets = {
+    "trust-${var.region}" = {
+      region = var.region,
+      cidr   = var.cidrs_trust
+    }
+  }
+}
+
+
 # -----------------------------------------------------------------------------------------------
 # Create IAM service account for the VM-Series to publish metrics to stack driver
 module "iam_service_account" {
@@ -27,7 +90,7 @@ module "autoscale" {
   ]
 
   prefix                = "${local.prefix}-vmseries"
-  deployment_name       = local.prefix
+  deployment_name       = local.deployment_name
   machine_type          = var.fw_machine_type
   ssh_key               = fileexists(var.public_key_path) ? "admin:${file(var.public_key_path)}" : ""
   image                 = var.fw_image_uri
@@ -116,4 +179,9 @@ resource "google_compute_route" "internal_lb" {
   network      = module.vpc_trust.vpc_id
   next_hop_ilb = module.intlb.forwarding_rule
   priority     = 1000
+}
+
+output panorama_deployment_name {
+  description = "Deployment name if using Panorama Google autoscale plugin."
+  value       = local.deployment_name
 }
