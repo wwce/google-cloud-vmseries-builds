@@ -91,7 +91,7 @@ module "autoscale" {
   nic1_public_ip        = true
   nic2_public_ip        = false
   pool                  = module.extlb.target_pool
-  scopes                = ["https://www.googleapis.com/auth/cloud-platform"]
+ # scopes                = ["https://www.googleapis.com/auth/cloud-platform"]
   service_account       = google_service_account.vmseries.email
   min_replicas_per_zone = 1
   max_replicas_per_zone = 2
