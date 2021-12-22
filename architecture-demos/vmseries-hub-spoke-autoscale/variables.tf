@@ -95,7 +95,7 @@ variable spoke_vm_scopes {
 }
 
 
-variable roles {
+variable service_account_roles {
   description = "List of IAM role names, such as [\"roles/compute.viewer\"] or [\"project/A/roles/B\"]. The default list is suitable for Palo Alto Networks Firewall to run and publish custom metrics to GCP Stackdriver."
   default = [
     "roles/compute.networkViewer",
