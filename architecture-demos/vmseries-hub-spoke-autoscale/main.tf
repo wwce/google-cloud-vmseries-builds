@@ -24,6 +24,7 @@ resource "random_string" "main" {
 }
 
 locals {
-  prefix = random_string.main.result
+  // Random name prefix.  Appended to cloud resource names for global uniqueness.
+    prefix = random_string.main.result
   deployment_name = "panorama-${random_string.main.result}"
 }

@@ -1,21 +1,20 @@
-
-# --------------------------------------------------------------------------------------------------------------------------
-# Create a cloud NAT for the management VPC network.  This provides external connectivity
-# to Panorama and PANW licensing & content servers. 
+# -----------------------------------------------------------------------------------------------
+# Create cloud NAT in mgmt VPC to provide internet connectivity to Panorama/PANW content servers. 
 
 module "mgmt_cloud_nat" {
   source = "terraform-google-modules/cloud-nat/google"
   #ersion = "=1.2"
-  name                               = "${local.prefix}-mgmt"
-  router                             = "${local.prefix}-mgmt"
-  project_id                         = var.project_id
-  region                             = var.region
-  create_router                      = true
-  network                            = module.vpc_mgmt.vpc_self_link
+  name          = "${local.prefix}-mgmt"
+  router        = "${local.prefix}-mgmt"
+  project_id    = var.project_id
+  region        = var.region
+  create_router = true
+  network       = module.vpc_mgmt.vpc_self_link
 }
 
-# --------------------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------
 # Create firewall VPCs & subnets
+
 module "vpc_mgmt" {
   source               = "../../modules/google_vpc/"
   vpc                  = "${random_string.main.result}-mgmt-vpc"
@@ -60,23 +59,43 @@ module "vpc_trust" {
   }
 }
 
-
 # -----------------------------------------------------------------------------------------------
 # Create IAM service account for the VM-Series to publish metrics to stack driver
-module "iam_service_account" {
-  source = "../../modules/panw_iam_service_account/"
 
-  project_id         = data.google_client_config.main.project
-  service_account_id = "${local.prefix}-panw-service-account"
+resource "google_service_account" "vmseries" {
+  project      = data.google_client_config.main.project
+  account_id   = "${local.prefix}-panw-service-account"
+  display_name = "Palo Alto Networks VM-Series Service Account"
 }
 
-#-----------------------------------------------------------------------------------------------
+resource "google_project_iam_member" "vmseries" {
+  for_each = var.service_account_roles
+  project  = var.project_id
+  role     = each.value
+  member   = "serviceAccount:${google_service_account.vmseries.email}"
+}
+
+# -----------------------------------------------------------------------------------------------
 # Create a managed instance group with the VM-Series (autoscaling)
 
 module "autoscale" {
   source = "../../modules/vmseries_managed_ig/"
 
-  project_id = data.google_client_config.main.project
+  prefix                = "${local.prefix}-vmseries"
+  project_id            = data.google_client_config.main.project
+  deployment_name       = local.deployment_name
+  machine_type          = var.fw_machine_type
+  ssh_key               = fileexists(var.public_key_path) ? "admin:${file(var.public_key_path)}" : ""
+  image                 = var.fw_image_uri
+  nic0_public_ip        = false
+  nic1_public_ip        = true
+  nic2_public_ip        = false
+  pool                  = module.extlb.target_pool
+  scopes                = ["https://www.googleapis.com/auth/cloud-platform"]
+  service_account       = google_service_account.vmseries.email
+  min_replicas_per_zone = 1
+  max_replicas_per_zone = 2
+  autoscaler_metrics    = var.autoscaler_metrics
 
   zones = {
     zone1 = data.google_compute_zones.main.names[0]
@@ -89,26 +108,19 @@ module "autoscale" {
     module.vpc_trust.subnet_self_link["trust-${var.region}"]
   ]
 
-  prefix                = "${local.prefix}-vmseries"
-  deployment_name       = local.deployment_name
-  machine_type          = var.fw_machine_type
-  ssh_key               = fileexists(var.public_key_path) ? "admin:${file(var.public_key_path)}" : ""
-  image                 = var.fw_image_uri
-  nic0_public_ip        = false
-  nic1_public_ip        = true
-  nic2_public_ip        = false
-  pool                  = module.extlb.target_pool
-  scopes                = ["https://www.googleapis.com/auth/cloud-platform"]
-  service_account       = module.iam_service_account.email
-  min_replicas_per_zone = 1
-  max_replicas_per_zone = 2
-  autoscaler_metrics    = var.autoscaler_metrics
-
   named_ports = [
     {
       name = "http"
       port = "80"
     }
+  ]
+
+  labels = {
+    vm-series-fw-template-version = "1-0-0"
+  }
+
+  tags = [
+    "vm-series-fw"
   ]
 
   metadata = {
@@ -122,25 +134,20 @@ module "autoscale" {
     dhcp-send-client-id         = "yes"
     dhcp-accept-server-hostname = "yes"
     dhcp-accept-server-domain   = "yes"
+    /*
+    # Example of bootstrap via Google storage bucket.
+      mgmt-interface-swap                  = "enable"
+      vmseries-bootstrap-gce-storagebucket = "my-google-bootstrap-bucket"
+      serial-port-enable                   = true
+      ssh-keys                             = "~/.ssh/vmseries-ssh-key.pub"
+    */
   }
-  labels = {
-    vm-series-fw-template-version = "1-0-0"
-  }
-  tags = [
-    "vm-series-fw"
-  ]
 
-  # Example of bootstrap via Google storage bucket (full boostrap with dynamic content installed)
-  # metadata = {
-  #   mgmt-interface-swap                  = "enable"
-  #   vmseries-bootstrap-gce-storagebucket = "my-google-bootstrap-bucket"
-  #   serial-port-enable                   = true
-  #   ssh-keys                             = "~/.ssh/vmseries-ssh-key.pub"
-  # }
 }
 
-#-----------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------
 # Create internal TCP network load balancer (all ports)
+
 module "intlb" {
   source = "../../modules/google_lb_internal/"
 
@@ -153,8 +160,9 @@ module "intlb" {
   allow_global_access = true
 }
 
-#-----------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------
 # Create external TCP network load balancer
+
 module "extlb" {
   source = "../../modules/google_lb_external_tcp/"
 
@@ -173,6 +181,9 @@ module "extlb" {
   }
 }
 
+# -----------------------------------------------------------------------------------------------
+# Create default route in the trust VPC to use VM-Series internal LB as next hop
+
 resource "google_compute_route" "internal_lb" {
   name         = "${local.prefix}-route"
   dest_range   = "0.0.0.0/0"
@@ -181,7 +192,10 @@ resource "google_compute_route" "internal_lb" {
   priority     = 1000
 }
 
-output panorama_deployment_name {
+# -----------------------------------------------------------------------------------------------
+# Output deployment name.  Use the deployment name in the Panorama GCP plugin autoscale config.
+
+output "panorama_deployment_name" {
   description = "Deployment name if using Panorama Google autoscale plugin."
   value       = local.deployment_name
 }

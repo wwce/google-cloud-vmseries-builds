@@ -168,17 +168,16 @@ resource "google_pubsub_topic" "this" {
 resource "google_pubsub_subscription" "this" {
   name  = "${var.deployment_name}-${var.project_id}-panorama-plugin-subscription"
   topic = google_pubsub_topic.this.id
+
+  labels = {
+    goog-dm = var.deployment_name
+  }
 }
 
 resource "google_pubsub_subscription_iam_member" "this" {
   subscription = google_pubsub_subscription.this.id
   role         = "roles/pubsub.subscriber"
   member       = "serviceAccount:${coalesce(var.service_account, data.google_compute_default_service_account.this.email)}"
-  
-  labels = {
-    goog-dm = var.deployment_name
-  }
-
 }
 
 data "google_compute_default_service_account" "this" {}
