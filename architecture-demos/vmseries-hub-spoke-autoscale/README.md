@@ -576,7 +576,7 @@ First, we will gather the IP addresses and ports used on two of the external loa
       <img src="images/image59.png" width="500">
     </p>
   
-    * **Destination Address** - Enter the external load balancer’s frontend address that is assigned TCP/22.
+    * **Destination Address** - Enter the external load balancer’s frontend address that is assigned TCP/80.
 
 <p align="center">
     <img src="images/image60.png" width="500">
