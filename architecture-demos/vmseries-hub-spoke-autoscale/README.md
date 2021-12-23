@@ -21,8 +21,12 @@ Palo Alto Networks VM-Series ML-NGFW is the industry-leading virtualized securit
 The diagram below shows the lab environment we will be building.  Everything depicted in the diagram is built through Terraform. All traffic to/from the spoke VPC networks flows through the VM-Series firewalls for inspection. The VM-Series is deployed into a managed instance group.  This provides the VM-Series the ability to horizontally scale based on PAN-OS metrics delivered to Google Stackdriver.  This build requires an existing Panorama appliance because the VM-Series bootstrap to Panorama to receive their configuration.  
 
 <p align="center">
-    <img src="images/image1.png" width="500">
+    <img src="images/image1.png">
 </p>
+
+</b>
+</b>
+</b>
 
 <table>
   <tr>
