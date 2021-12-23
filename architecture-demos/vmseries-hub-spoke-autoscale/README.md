@@ -20,7 +20,9 @@ Palo Alto Networks VM-Series ML-NGFW is the industry-leading virtualized securit
 
 The diagram below shows the lab environment we will be building.  Everything depicted in the diagram is built through Terraform. All traffic to/from the spoke VPC networks flows through the VM-Series firewalls for inspection. The VM-Series is deployed into a managed instance group.  This provides the VM-Series the ability to horizontally scale based on PAN-OS metrics delivered to Google Stackdriver.  This build requires an existing Panorama appliance because the VM-Series bootstrap to Panorama to receive their configuration.  
 
-![alt_text](images/image1.png "image_tooltip")
+<p align="center">
+    <img src="images/image1.png" width="500">
+</p>
 
 <table>
   <tr>
@@ -75,19 +77,31 @@ When the VM-Series firewalls are deployed from the instance template, the firewa
 
 1. Log into your Panorama appliance. Navigate to **Panorama → Templates → Add**.
 
-![alt_text](images/image2.png "image_tooltip")
+<p align="center">
+    <img src="images/image2.png" width="500">
+</p>
+
+<p align="center">
+    <img src="images/image2.png" width="500">
+</p>
 
 2. Enter a name for your template.  Click **OK**.
 
-![alt_text](images/image3.png "image_tooltip")
+<p align="center">
+    <img src="images/image3.png" width="500">
+</p>
 
 3. Click **Add Stack** to create a template stack.
 
-![alt_text](images/image4.png "image_tooltip")
+<p align="center">
+    <img src="images/image4.png" width="500">
+</p>
 
 4. Enter a name for the template stack.  In the **TEMPLATES** window, add the template you created in the previous step.  Click **OK**.
 
-![alt_text](images/image5.png "image_tooltip")
+<p align="center">
+    <img src="images/image5.png" width="500">
+</p>
 
 
 ### Configure Template Settings
@@ -99,48 +113,66 @@ In this section, we will configure the Panorama template with a baseline configu
 
 1. Click the **Device** tab.  Select the template you created in the previous step from the **Template** dropdown menu.
 
-![alt_text](images/image6.png "image_tooltip")
+<p align="center">
+    <img src="images/image6.png" width="500">
+</p>
 
 2. Navigate to **VM-Series → Google**.  Click the gear icon.
 
-![alt_text](images/image7.png "image_tooltip")
+<p align="center">
+    <img src="images/image7.png" width="500">
+</p>
 
 3. Check ON **Publish PAN-OS metrics to Stackdriver**.  Set the update interface to `1 minute`.  Click **OK**.
 
-![alt_text](images/image8.png "image_tooltip")
+<p align="center">
+    <img src="images/image8.png" width="500">
+</p>
 
 
 #### Create Security Zones
 
 1. Click the **Network** tab.  Select the template you created in the previous step from the **Template** dropdown menu.
 
-![alt_text](images/image9.png "image_tooltip")
+<p align="center">
+    <img src="images/image9.png" width="500">
+</p>
 
 2. Click **Zones → Add**
 
-![alt_text](images/image10.png "image_tooltip")
+<p align="center">
+    <img src="images/image10.png" width="500">
+</p>
 
 3. Enter `untrust` for the zone name.  Select `Layer3` for the interface type. Click **OK**.
 
-![alt_text](images/image11.png "image_tooltip")
+<p align="center">
+    <img src="images/image11.png" width="500">
+</p>
 
 4. Create a second zone.  Enter `trust` for the zone name.  Select `Layer3` for the interface type. Click **OK**.
 
-![alt_text](images/image12.png "image_tooltip")
+<p align="center">
+    <img src="images/image12.png" width="500">
+</p>
 
 
 #### Create Virtual Router
 
 1. Click **Virtual Routers** **→ Add**.  Enter `VR1` for the Virtual Router name.  Click **OK**.
 
-![alt_text](images/image13.png "image_tooltip")
+<p align="center">
+    <img src="images/image13.png" width="500">
+</p>
 
 
 #### Create Interfaces
 
 1. Create the untrust dataplane interface (ethernet1/1).  Click **Interfaces → Add Interface**
 
-![alt_text](images/image14.png "image_tooltip")
+<p align="center">
+    <img src="images/image14.png" width="500">
+</p>
 
 2. Click the **Config** tab.  Set the untrust interface as follows:
     * **Slot** - `Slot 1`
@@ -149,11 +181,15 @@ In this section, we will configure the Panorama template with a baseline configu
     * **Virtual** **Router** - `VR1`
     * **Security** **Zone** - `untrust`
 
-![alt_text](images/image15.png "image_tooltip")
+<p align="center">
+    <img src="images/image15.png" width="500">
+</p>
 
 3. Click the **IPv4** tab.  Select **DHCP Client**.  **_Check ON_** the automatic default route generation box.  Click **OK**.
 
-![alt_text](images/image16.png "image_tooltip")
+<p align="center">
+    <img src="images/image16.png" width="500">
+</p>
 
 4. Create a second interface for the trust network.  Click **Add Interface**.
 
@@ -164,58 +200,84 @@ In this section, we will configure the Panorama template with a baseline configu
     * **Virtual** **Router** - `VR1`
     * **Security** **Zone** - `trust`
 
-![alt_text](images/image17.png "image_tooltip")
+<p align="center">
+    <img src="images/image17.png" width="500">
+</p>
 
 6. Click the **IPv4** tab.  Select `DHCP Client`.  **_Check OFF_** the automatic default route generation box.  Click **OK**.
 
-![alt_text](images/image18.png "image_tooltip")
+<p align="center">
+    <img src="images/image18.png" width="500">
+</p>
 
 7. We need to create a loopback interface to forward the load balancer’s health probe requests.  Click **Loopback → Add**.
 
-![alt_text](images/image19.png "image_tooltip")
+<p align="center">
+    <img src="images/image19.png" width="500">
+</p>
 
 8. In the **Config** tab, set the numeric suffix to `.1` (or to any available suffix) to identify the interface.  Set the Virtual Router to `VR1` and the Security Zone to `trust`.
 
-![alt_text](images/image20.png "image_tooltip")
+<p align="center">
+    <img src="images/image20.png" width="500">
+</p>
 
 9. In the **IPv4** tab, set a static dummy /32 IP address (i.e. `100.64.0.1/32`).  This address can be any IP address that is not used in the environment. 
 
-![alt_text](images/image21.png "image_tooltip")
+<p align="center">
+    <img src="images/image21.png" width="500">
+</p>
 
 10.  Click the **Advanced** tab.  Select the **Management Profile** dropdown and click **New Management Profile**. 
 
-![alt_text](images/image22.png "image_tooltip")
+<p align="center">
+    <img src="images/image22.png" width="500">
+</p>
 
 11.  Enter a name for the Management Profile.  **_Check ON_** `HTTP` to allow the internal load balancer’s TCP/80 health probe.  It is recommended to restrict the management profile to Google Cloud’s health probe ranges: `35.191.0.0/16` & `130.211.0.0/22`.  Click **OK**.
 
-![alt_text](images/image23.png "image_tooltip")
+<p align="center">
+    <img src="images/image23.png" width="500">
+</p>
 
 12.  Click **OK** on the Loopback interface creation window. Click **OK** on the security warning prompt.
 
-![alt_text](images/image24.png "image_tooltip")
+<p align="center">
+    <img src="images/image24.png" width="500">
+</p>
 
 
 #### Create Static Routes on Virtual Router
 
 We need to add 3 routes to the virtual router to route north/south and east/west traffic for the spoke VPC networks (`10.0.0.0/8`) and to also route the internal load balancer health probes correctly.  Go to **Virtual Routers → VR1 → Static Routes → Add**.
 
-![alt_text](images/image25.png "image_tooltip")
+<p align="center">
+    <img src="images/image25.png" width="500">
+</p>
 
 1.   Configure the first route as follows.  This route directs the internal load balancer’s health probe range `35.191.0.0/16` to the trust subnet’s default gateway `10.0.2.1`.  
 
-![alt_text](images/image26.png "image_tooltip")
+<p align="center">
+    <img src="images/image26.png" width="500">
+</p>
 
 2.   Configure the second route as follows.  This route directs the internal load balancer’s health probe range `130.211.0.0/22` to the trust subnet’s default gateway `10.0.2.1`. 
 
-![alt_text](images/image27.png "image_tooltip")
+<p align="center">
+    <img src="images/image27.png" width="500">
+</p>
 
 3.  Configure the third route as follows.  This route hairpins east-west traffic between spoke1 VPC `10.1.0.0/16` and spoke2 VPC `10.2.0.0/16` through the VM-Series firewall’s trust interface `ethernet1/2`. 
 
-![alt_text](images/image28.png "image_tooltip")
+<p align="center">
+    <img src="images/image28.png" width="500">
+</p>
 
 **<span style="text-decoration:underline;">Your static routes should look like the image below before proceeding.</span>** 
 
-![alt_text](images/image29.png "image_tooltip")
+<p align="center">
+    <img src="images/image29.png" width="500">
+</p>
 
 
 ### Create a Panorama Device Group
@@ -226,11 +288,15 @@ Upon deployment, the VM-Series firewalls bootstrap to the device group that is d
 
 1. Click **Panorama →** **Device Groups → Add**.  
 
-![alt_text](images/image30.png "image_tooltip")
+<p align="center">
+    <img src="images/image30.png" width="500">
+</p>
 
 2. Enter a name for the device group.  In the **REFERENCE TEMPLATES** window, add the _template stack_ you created in the previous step.
 
-![alt_text](images/image31.png "image_tooltip")
+<p align="center">
+    <img src="images/image31.png" width="500">
+</p>
 
 **<span style="text-decoration:underline;">Record the name of your device group and template stack before proceeding.</span>**
 
@@ -244,23 +310,33 @@ In this section, we will configure the baseline settings for the Panorama device
 
 1. Click the **Policies** tab.  Select the device group you created in the previous step from the **Device Group** dropdown menu.  On the left menu, go to to **Security → Pre Rules → Add**. 
 
-![alt_text](images/image32.png "image_tooltip")
+<p align="center">
+    <img src="images/image32.png" width="500">
+</p>
 
 2. Enter a name for the security policy.
 
-![alt_text](images/image33.png "image_tooltip")
+<p align="center">
+    <img src="images/image33.png" width="500">
+</p>
 
 3. Click the **Source** tab.  Set the **source zone** to `Any`.  Set the **source address** to `35.191.0.0/16` & `130.211.0.0/22`.
 
-![alt_text](images/image34.png "image_tooltip")
+<p align="center">
+    <img src="images/image34.png" width="500">
+</p>
 
 4. Click the **Destination** tab.  Set the **destination zone** to `Any`.   
 
-![alt_text](images/image35.png "image_tooltip")
+<p align="center">
+    <img src="images/image35.png" width="500">
+</p>
 
 5. Click the **Actions** tab.  Set **action** to `Allow`.  Set the log settings to `Log at Session End` and select your log forwarding profile (optional). Click **OK**.
 
-![alt_text](images/image36.png "image_tooltip")
+<p align="center">
+    <img src="images/image36.png" width="500">
+</p>
 
 
 #### Create Destination NAT for Health Probes
@@ -269,11 +345,15 @@ Here we will create a single destination NAT to translate the Google internal lo
 
 1. On Panorama, navigate to **Policies → NAT → Pre Rules → Add**. Verify you are modifying the device group you previously created. 
 
-![alt_text](images/image37.png "image_tooltip")
+<p align="center">
+    <img src="images/image37.png" width="500">
+</p>
 
 2. Enter a name for the NAT rule.
 
-![alt_text](images/image38.png "image_tooltip")
+<p align="center">
+    <img src="images/image38.png" width="500">
+</p>
 
 3. **_Original Packet Tab_**
     * **Source Zone** - `trust`
@@ -281,7 +361,9 @@ Here we will create a single destination NAT to translate the Google internal lo
     * **Destination Interface** - <code>ethernet1/2<strong> </strong></code>(trust interface)
     * <strong>Source Address </strong>- <code>35.191.0.0/16</code> & <code>130.211.0.0/22</code>
 
-![alt_text](images/image39.png "image_tooltip")
+<p align="center">
+    <img src="images/image39.png" width="500">
+</p>
 
 4. **_Translated Packet Tab_** 
     * Source Address Translation
@@ -290,7 +372,9 @@ Here we will create a single destination NAT to translate the Google internal lo
         * **Translation Type -** `Dynamic IP (with session distribution)` 
         * **Translated Address -** `100.64.0.1` (IP address of the loopback interface)
 
-![alt_text](images/image40.png "image_tooltip")
+<p align="center">
+    <img src="images/image40.png" width="500">
+</p>
 
 
 #### Modify Predefined Security Rules 
@@ -300,11 +384,15 @@ In this section, we will configure the predefined security polices to deny and l
 1. Go to **Policies → Security → Default Rules**. 
 2. _Highlight_ the intrazone-default security policy.  Click **Override**.
 
-![alt_text](images/image41.png "image_tooltip")
+<p align="center">
+    <img src="images/image41.png" width="500">
+</p>
 
 3. Click the **Actions** tab.  Set the Action to `Deny`.  **_Check ON _Log at Session End** and select your log forwarding profile.   Click **OK**.
 
-![alt_text](images/image42.png "image_tooltip")
+<p align="center">
+    <img src="images/image42.png" width="500">
+</p>
 
 4. Repeat the process for the **interzone-default** rule.  
 
@@ -313,7 +401,9 @@ In this section, we will configure the predefined security polices to deny and l
 
 1. Commit the changes to Panorama.  **Commit → Commit to Panorama → Commit**.
 
-![alt_text](images/image43.png "image_tooltip")
+<p align="center">
+    <img src="images/image43.png" width="500">
+</p>
 
 
 ### Create a Panorama VM Auth Key
@@ -330,7 +420,9 @@ request bootstrap vm-auth-key generate lifetime <1-8760>
 
 (Output)
 
-![alt_text](images/image44.png "image_tooltip")
+<p align="center">
+    <img src="images/image44.png" width="500">
+</p>
 
 **Record the vm-auth-key value before proceeding to the next step**. 
 
@@ -341,7 +433,9 @@ In this section, we will walk through how to deploy the environment using Terraf
 
 1. Open Google Cloud Shell by clicking the shell icon in the top right hand corner.
 
-![alt_text](images/image45.png "image_tooltip")
+<p align="center">
+    <img src="images/image45.png" width="500">
+</p>
 
 2. In cloud shell, copy and paste the following to enable the required Google Cloud APIs and to create an SSH key.  
 
@@ -361,13 +455,17 @@ cd google-cloud-vmseries-builds/architecture-demos/vmseries-hub-spoke-autoscale
 
 4. Click **Open Editor** to open the Google Cloud Shell editor.
 
-![alt_text](images/image46.png "image_tooltip")
+<p align="center">
+    <img src="images/image46.png" width="500">
+</p>
 
 5. Open the terraform.tfvars file in `google-cloud-vmseries-builds/architecture-demos/vmseries-hub-spoke-autoscale`
 
 6. Edit lines 1-4 to match your Panorama IP, Device Group, Template Stack, and VM Auth Key.  **Note.** The Panorama address must be accessible from the management VPC network (defaults to internet connectivity). 
 
-![alt_text](images/image47.png "image_tooltip")
+<p align="center">
+    <img src="images/image47.png" width="500">
+</p>
 
 7. Save the file.  Click **Open Terminal**.
 
@@ -381,23 +479,31 @@ terraform apply
 
 9. Verify that the Terraform plan will create **52** resources. Enter `yes` to start the build.
 
-![alt_text](images/image48.png "image_tooltip")
+<p align="center">
+    <img src="images/image48.png" width="500">
+</p>
 
 10.  When the build completes, the following output will be displayed. 
 
-![alt_text](images/image49.png "image_tooltip")
+<p align="center">
+    <img src="images/image49.png" width="500">
+</p>
 
 _Optional._  If you want to use the autoscaling feature within the Panorama GCP plugin, please set the <code>panorama_deployment_name</code> value as deployment name within the plugin configuration.</em>
 
 11.  Navigate to **Panorama → Managed Devices → Summary**.  Set the refresh timer to 10 seconds.
 
-![alt_text](images/image50.png "image_tooltip")
+<p align="center">
+    <img src="images/image50.png" width="500">
+</p>
 
 **Wait ~10 minutes for the firewalls to successfully bootstrap.**
 
 12.  Proceed to the next section once the VM-Series and are listed as in-sync (green bubble) with the Panorama device group. 
 
-![alt_text](images/image51.png "image_tooltip")
+<p align="center">
+    <img src="images/image51.png" width="500">
+</p>
 
 
 ## Configure NAT Policies for Internet Inbound & Outbound Traffic
@@ -414,38 +520,52 @@ First, we will gather the IP addresses and ports used on two of the external loa
 
 1. On the Google Cloud console, navigate to **Network Services → Load Balancers**.
 
-![alt_text](images/image52.png "image_tooltip")
+<p align="center">
+    <img src="images/image52.png" width="500">
+</p>
 
 2. There are two load balancers. 
    * `<prefix>-extlb-vmseries` - This is the VM-Series external load balancer.  It distributes internet inbound traffic to the VM-Series untrust interfaces.
    * `<prefix>-intlb-vmseries` - This is the VM-Series internal load balancer.  It distributes outbound traffic from the spoke networks to the VM-Series trust interfaces (i.e. spoke-to-internet, or spoke-to-spoke traffic).  It is **_healthy_** because we pre-configured the Panorama device group to pass the health checks. 
 
-![alt_text](images/image53.png "image_tooltip")
+<p align="center">
+    <img src="images/image53.png" width="500">
+</p>
 
 3. Open the `<prefix>-extlb-vmseries` load balancer. 
    
    There are two frontend IP addresses with unique frontend ports: `TCP/80` and `TCP/22`.  Record each frontend IP address and port.  Each frontend IP address and port will be set as the original destination IP and port in the VM-Series NAT policy. 
 
-![alt_text](images/image54.png "image_tooltip")
+<p align="center">
+    <img src="images/image54.png" width="500">
+</p>
 
 4. On the Google Cloud console, navigate to **Compute Engine → VM Instances**.
 
-![alt_text](images/image55.png "image_tooltip")
+<p align="center">
+    <img src="images/image55.png" width="500">
+</p>
 
 5. Record the Internal IP address for the VMs in spoke VPC networks: `<prefix>-spoke1-web` and `<prefix>-spoke2-jump`.  Each IP address will be set as the translated address in the VM-Series NAT policy.
 
-![alt_text](images/image56.png "image_tooltip")
+<p align="center">
+    <img src="images/image56.png" width="500">
+</p>
 
 
 #### Create NAT Policy for Spoke1 Web Servers (TCP/80)
 
 1. On Panorama, navigate to **Policies → NAT → Pre Rules → Add**. 
 
-![alt_text](images/image57.png "image_tooltip")
+<p align="center">
+    <img src="images/image57.png" width="500">
+</p>
 
 2. Enter a name for the NAT policy.
 
-![alt_text](images/image58.png "image_tooltip")
+<p align="center">
+    <img src="images/image58.png" width="500">
+</p>
 
 3. **_Original Packet Tab_**
    * **Source Zone** - `untrust`
@@ -453,10 +573,14 @@ First, we will gather the IP addresses and ports used on two of the external loa
     * **Destination Interface** - `ethernet1/1`
     * **Service** - Select `Create a new service`.  Give it a name and enter `80` in the destination port field.
     </b>
-    ![alt_text](images/image59.png "image_tooltip")  
+    <p align="center">
+    <img src="images/image59.png" width="500">
+</p>  
     * **Destination Address** - Enter the external load balancer’s frontend address that is assigned TCP/80.
 
-![alt_text](images/image60.png "image_tooltip")
+<p align="center">
+    <img src="images/image60.png" width="500">
+</p>
 
 1. **_Translated Packet Tab_** 
     * Source Address Translation
@@ -468,7 +592,9 @@ First, we will gather the IP addresses and ports used on two of the external loa
         * **Translated Address** - `10.1.0.10` (IP address of spoke1-web-vm)
         * **Translated Port** - `80` (The port the spoke1-web-vm is listening on)
 
-![alt_text](images/image61.png "image_tooltip")
+<p align="center">
+    <img src="images/image61.png" width="500">
+</p>
 
 5. Click **OK** to create the NAT rule.
 
@@ -479,7 +605,9 @@ First, we will gather the IP addresses and ports used on two of the external loa
 
 2. Enter a name for the NAT policy.
 
-![alt_text](images/image62.png "image_tooltip")
+<p align="center">
+    <img src="images/image62.png" width="500">
+</p>
 
 3. **_Original Packet Tab_**
     * **Source Zone** - `untrust`
@@ -487,10 +615,14 @@ First, we will gather the IP addresses and ports used on two of the external loa
     * **Destination Interface** - `ethernet1/1`
     * **Service** - Select `Create a new service`.  Give it a name and enter `22` in the destination port field.
     </b>
-    ![alt_text](images/image63.png "image_tooltip")
+    <p align="center">
+    <img src="images/image63.png" width="500">
+</p>
     * **Destination Address** - Enter the external load balancer’s frontend address that is assigned TCP/22.
 
-![alt_text](images/image64.png "image_tooltip")
+<p align="center">
+    <img src="images/image64.png" width="500">
+</p>
 
 4. **_Translated Packet Tab_** 
     * Source Address Translation
@@ -502,7 +634,9 @@ First, we will gather the IP addresses and ports used on two of the external loa
         * **Translated Address** - `10.2.0.10` (IP address of spoke2-jump-vm)
         * **Translated Port** - `22` (The port the spoke2-jump-vm is listening on)
 
-![alt_text](images/image65.png "image_tooltip")
+<p align="center">
+    <img src="images/image65.png" width="500">
+</p>
 
 5. Click **OK**.
 
@@ -513,13 +647,17 @@ In order for the spoke VPC networks to reach the internet through the VM-Series,
 
 1. Add another NAT rule, go to **Policies → NAT → Pre Rules → Add**.  Enter a name for the outbound NAT policy. 
 
-![alt_text](images/image66.png "image_tooltip")
+<p align="center">
+    <img src="images/image66.png" width="500">
+</p>
 
 2. **_Original Packet Tab_**
     * **Source Zone** - `trust`
     * **Destination Zone** - `untrust`
 
-![alt_text](images/image67.png "image_tooltip")
+<p align="center">
+    <img src="images/image67.png" width="500">
+</p>
 
 3. **_Translated Packet Tab_**
     * Source Address Translation 
@@ -530,13 +668,17 @@ In order for the spoke VPC networks to reach the internet through the VM-Series,
     * Destination Address Translation
         * `None`
 
-![alt_text](images/image68.png "image_tooltip")
+<p align="center">
+    <img src="images/image68.png" width="500">
+</p>
 
 1. Click **OK**.
 
 **<span style="text-decoration:underline;">Your NAT policies should look like the image below before proceeding.</span>**  
 
-![alt_text](images/image69.png "image_tooltip")
+<p align="center">
+    <img src="images/image69.png" width="500">
+</p>
 
 
 ### Create Security Policies
@@ -550,27 +692,39 @@ Here we will create a generic security policy to allow web-browsing and SSH from
 
 1. Go to **Policies → Security → Pre Rules → Add**.
 
-![alt_text](images/image70.png "image_tooltip")
+<p align="center">
+    <img src="images/image70.png" width="500">
+</p>
 
 2. Enter a name for the rule. 
 
-![alt_text](images/image71.png "image_tooltip")
+<p align="center">
+    <img src="images/image71.png" width="500">
+</p>
 
 3. **_Source Tab_** - Set **source zone** to `untrust`.
 
-![alt_text](images/image72.png "image_tooltip")
+<p align="center">
+    <img src="images/image72.png" width="500">
+</p>
 
 4. **_Destination Tab_** - Set **destination zone** to `trust`,  **destination address** to the external load balancer’s frontend IP addresses.
 
-![alt_text](images/image73.png "image_tooltip")
+<p align="center">
+    <img src="images/image73.png" width="500">
+</p>
 
 5. **_Application Tab_** - Add `web-browsing` and `ssh`.
 
-![alt_text](images/image74.png "image_tooltip")
+<p align="center">
+    <img src="images/image74.png" width="500">
+</p>
 
 6. **_Actions Tab_** - Set **action** to `Allow`.  Check `Log at Session End` and select a log forwarding profile (optional).  Click **OK**.
 
-![alt_text](images/image75.png "image_tooltip")
+<p align="center">
+    <img src="images/image75.png" width="500">
+</p>
 
 
 #### Internet Outbound Generic Security Policy
@@ -581,23 +735,33 @@ Here we will create a generic security policy to allow the spoke networks to com
 
 2. Enter a name for the rule. 
 
-![alt_text](images/image76.png "image_tooltip")
+<p align="center">
+    <img src="images/image76.png" width="500">
+</p>
 
 3. **_Source Tab_** - Set **source zone** to `trust`.
 
-![alt_text](images/image77.png "image_tooltip")
+<p align="center">
+    <img src="images/image77.png" width="500">
+</p>
 
 4. **_Destination Tab_** - Set **destination zone** to `untrust`
 
-![alt_text](images/image78.png "image_tooltip")
+<p align="center">
+    <img src="images/image78.png" width="500">
+</p>
 
 5. **_Application Tab_** -Add `apt-get`,  `dns`,  `ping`,  `ssl`, `traceroute`, and  `web-browsing`.
 
-![alt_text](images/image79.png "image_tooltip")
+<p align="center">
+    <img src="images/image79.png" width="500">
+</p>
 
 6. **_Actions Tab_** - Set **action** to `Allow`.  Check `Log at Session End` and select a log forwarding profile (optional).  Click **OK**.
 
-![alt_text](images/image80.png "image_tooltip")
+<p align="center">
+    <img src="images/image80.png" width="500">
+</p>
 
 
 #### East-West (VPC to VPC) Generic Security Policy
@@ -606,42 +770,60 @@ Lastly, we will create a generic security policy to allow the spoke2 VPC network
 
 1. Add another security rule. Go to **Policies → Security → Prerules → Add**.
 
-![alt_text](images/image81.png "image_tooltip")
+<p align="center">
+    <img src="images/image81.png" width="500">
+</p>
 
 2. Enter a name for the rule. 
 
-![alt_text](images/image82.png "image_tooltip")
+<p align="center">
+    <img src="images/image82.png" width="500">
+</p>
 
 3. **_Source Tab_** - Set **source zone** to `trust`.  Set the** source address** to the spoke2 VPC network CIDR range `10.2.0.0/16`.
 
-![alt_text](images/image83.png "image_tooltip")
+<p align="center">
+    <img src="images/image83.png" width="500">
+</p>
 
 4. **_Destination Tab_** - Set **destination zone** to `untrust`.  Set the **destination address** to the spoke1 VPC network CIDR range `10.1.0.0/16`.
 
-![alt_text](images/image84.png "image_tooltip")
+<p align="center">
+    <img src="images/image84.png" width="500">
+</p>
 
 5. **_Application Tab_** - Add `ping` and `web-browsing`.
 
-![alt_text](images/image85.png "image_tooltip")
+<p align="center">
+    <img src="images/image85.png" width="500">
+</p>
 
 6. **_Actions Tab_** - Set **action** to `Allow`.  Check `Log at Session End` and select a log forwarding profile (optional).  Click **OK**.
 
-![alt_text](images/image86.png "image_tooltip")
+<p align="center">
+    <img src="images/image86.png" width="500">
+</p>
 
 **<span style="text-decoration:underline;">Your security policies should look like the image below before proceeding.</span>**
 
-![alt_text](images/image87.png "image_tooltip")
+<p align="center">
+    <img src="images/image87.png" width="500">
+</p>
 
 
 ### Commit the Changes
 
 1. Commit and Push the changes.  **Commit → Commit and Push**.
 
-![alt_text](images/image88.png "image_tooltip")
+<p align="center">
+    <img src="images/image88.png" width="500">
+</p>
 
 2.  Click **Commit And Push** to push the changes to the VM-Series firewalls.
 
-![alt_text](images/image89.png "image_tooltip")
+<p align="center">
+    <img src="images/image89.png" width="500">
+</p>
 
 
 ### Test Internet Inbound, Internet Outbound, and East-West Traffic
@@ -652,11 +834,15 @@ In this section we will test internet inbound through the external TCP/UDP load 
 
 1. Copy the frontend address that is mapped to TCP/80.  Paste the address into a web browser.
 
-![alt_text](images/image90.png "image_tooltip")
+<p align="center">
+    <img src="images/image90.png" width="500">
+</p>
 
 2. The **SOURCE IP** shows which VM-Series is handling the session.  Try refreshing the web-page several times.  The **SOURCE IP** will eventually change.  This demonstrates the Google Cloud traffic distribution capabilities between the VM-Series firewalls and the external load balancer. 
 
-![alt_text](images/image91.png "image_tooltip")
+<p align="center">
+    <img src="images/image91.png" width="500">
+</p>
 
 
 #### Test Internet to Jump Server in Spoke2 VPC
@@ -666,7 +852,9 @@ In this section we will test internet inbound through the external TCP/UDP load 
 ```
 ssh paloalto@<your_frontend_address>
 ```
-![alt_text](images/image92.png "image_tooltip")
+<p align="center">
+    <img src="images/image92.png" width="500">
+</p>
 
 1. Password to log into the jump server.
 
@@ -707,11 +895,15 @@ exit
 ( app eq apt-get ) or ( app eq web-browsing ) or ( app eq ssh ) 
 ```
 
-![alt_text](images/image93.png "image_tooltip")
+<p align="center">
+    <img src="images/image93.png" width="500">
+</p>
 
 1. With the filter applied, you should see you internet inbound web request and SSH session (from your public IP address), the spoke2 jump server's outbound apt-get request, and the web-browsing traffic between the spoke2 jump server and the spoke1 web server. 
 
-![alt_text](images/image94.png "image_tooltip")
+<p align="center">
+    <img src="images/image94.png" width="500">
+</p>
 
 
 ### PAN-OS Stackdriver Metrics
@@ -723,21 +915,29 @@ In this section, we will look at the PAN-OS metrics that are sent from the VM-Se
 
 1. In the Google Cloud console, navigate to **Monitoring →  Metric explorer**.
 
-![alt_text](images/image95.png "image_tooltip")
+<p align="center">
+    <img src="images/image95.png" width="500">
+</p>
 
 2. Set **Resource Type** to `VM Instance`
 
 3. In the **Metric** field, search for `custom`.  A list of the PAN-OS metrics will appear.  Select the `panSessionActive` metric. 
 
-![alt_text](images/image96.png "image_tooltip")
+<p align="center">
+    <img src="images/image96.png" width="500">
+</p>
 
 4. Set **Group by** to `instance_group`, **Aggregator** to `sum`, and **Minimum alignment period** to `1 minute`.
 
-![alt_text](images/image97.png "image_tooltip")
+<p align="center">
+    <img src="images/image97.png" width="500">
+</p>
 
 5. The graph on the right will display the total session count at 1 minute intervals for each zone based instance group. 
 
-![alt_text](images/image98.png "image_tooltip")
+<p align="center">
+    <img src="images/image98.png" width="500">
+</p>
 
 
 #### How to Apply VM-Series Autoscaling Policy
@@ -746,33 +946,47 @@ The instance group’s scaling conditions can be adjusted by modifying the insta
 
 1.  Navigate to **Compute Engine → Instance Groups**.  Select either `<prefix>-vmseries-igm-<zone>` instance group.
 
-![alt_text](images/image99.png "image_tooltip")
+<p align="center">
+    <img src="images/image99.png" width="500">
+</p>
 
 2. Click **Edit**.
 
-![alt_text](images/image100.png "image_tooltip")
+<p align="center">
+    <img src="images/image100.png" width="500">
+</p>
   
 3. Go to **Autoscaling Policy**.  Click the pencil icon next to the panSessionActive metric (default metric in this build).
 
-![alt_text](images/image101.png "image_tooltip")
+<p align="center">
+    <img src="images/image101.png" width="500">
+</p>
 
 4. In the **Metric identifier** field, search for `custom`.  Select a metric you want to scale upon (i.e. `DataPlaneCPUUtilizationPct`).
 
-![alt_text](images/image102.png "image_tooltip")
+<p align="center">
+    <img src="images/image102.png" width="500">
+</p>
 
 5. For the metric selected, set the **Utilization target** to the percentage you want to scale the VM-Series firewalls.  In this example, by setting the utilization target to 80, an additional firewall will be deployed when the dataplane utilization hits 80%.  Click **Done**.
 
-![alt_text](images/image103.png "image_tooltip")
+<p align="center">
+    <img src="images/image103.png" width="500">
+</p>
 
 6. Scroll down and click **Save**.   
 
-![alt_text](images/image104.png "image_tooltip")
+<p align="center">
+    <img src="images/image104.png" width="500">
+</p>
 
 7. Click the **Monitoring** tab to view the metrics for the instance group.  The metrics for dataplane utilization are near 0%.  This is because the VM-Series is handling very little traffic.
 
 **Note.** It may take several minutes for the metrics to appear in the GUI. 
 
-![alt_text](images/image105.png "image_tooltip")
+<p align="center">
+    <img src="images/image105.png" width="500">
+</p>
 
 
 ## Destroy Environment
