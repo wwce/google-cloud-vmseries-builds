@@ -572,11 +572,11 @@ First, we will gather the IP addresses and ports used on two of the external loa
     * **Destination Zone** - `untrust`
     * **Destination Interface** - `ethernet1/1`
     * **Service** - Select `Create a new service`.  Give it a name and enter `80` in the destination port field.
-    </b>
     <p align="center">
-    <img src="images/image59.png" width="500">
-</p>  
-    * **Destination Address** - Enter the external load balancer’s frontend address that is assigned TCP/80.
+      <img src="images/image59.png" width="500">
+    </p>
+  
+    * **Destination Address** - Enter the external load balancer’s frontend address that is assigned TCP/22.
 
 <p align="center">
     <img src="images/image60.png" width="500">
@@ -614,17 +614,17 @@ First, we will gather the IP addresses and ports used on two of the external loa
     * **Destination Zone** - `untrust`
     * **Destination Interface** - `ethernet1/1`
     * **Service** - Select `Create a new service`.  Give it a name and enter `22` in the destination port field.
-    </b>
     <p align="center">
-    <img src="images/image63.png" width="500">
-</p>
+      <img src="images/image63.png" width="500">
+    </p>
+
     * **Destination Address** - Enter the external load balancer’s frontend address that is assigned TCP/22.
 
 <p align="center">
     <img src="images/image64.png" width="500">
 </p>
 
-4. **_Translated Packet Tab_** 
+1. **_Translated Packet Tab_** 
     * Source Address Translation
         * **Translation Type** - `Dynamic IP and Port` 
         * **Address Type** - `Interface Address`
