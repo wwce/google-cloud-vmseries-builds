@@ -10,7 +10,7 @@ This [build](https://github.com/wwce/google-cloud-vmseries-builds/tree/main/blue
 
 
 <p align="center">
-    <img src="blueprints/vmseries-global-vpc/images/image1.png" width="800">
+    <img src="blueprints/vmseries-global-vpc/images/image1.png" width="500">
 </p>
 
 
