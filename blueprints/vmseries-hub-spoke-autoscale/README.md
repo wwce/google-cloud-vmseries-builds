@@ -454,7 +454,7 @@ ssh-keygen -f ~/.ssh/gcp-demo -t rsa -C gcp-demo
 
 ```
 git clone https://github.com/wwce/google-cloud-vmseries-builds
-cd google-cloud-vmseries-builds/architecture-demos/vmseries-hub-spoke-autoscale
+cd google-cloud-vmseries-builds/blueprints/vmseries-hub-spoke-autoscale
 ```
 
 4. Click **Open Editor** to open the Google Cloud Shell editor.
@@ -463,7 +463,7 @@ cd google-cloud-vmseries-builds/architecture-demos/vmseries-hub-spoke-autoscale
     <img src="images/image46.png" width="500">
 </p>
 
-5. Open the terraform.tfvars file in `google-cloud-vmseries-builds/architecture-demos/vmseries-hub-spoke-autoscale`
+5. Open the terraform.tfvars file in `google-cloud-vmseries-builds/blueprints/vmseries-hub-spoke-autoscale`
 
 6. Edit lines 1-4 to match your Panorama IP, Device Group, Template Stack, and VM Auth Key.  **Note.** The Panorama address must be accessible from the management VPC network (defaults to internet connectivity). 
 
@@ -476,7 +476,7 @@ cd google-cloud-vmseries-builds/architecture-demos/vmseries-hub-spoke-autoscale
 8. Change directories to the build directory.  Initialize and apply the Terraform plan.
 
 ```
-cd google-cloud-vmseries-builds/architecture-demos/vmseries-hub-spoke-autoscale
+cd google-cloud-vmseries-builds/blueprints/vmseries-hub-spoke-autoscale
 terraform init
 terraform apply
 ```
@@ -995,7 +995,7 @@ The instance group’s scaling conditions can be adjusted by modifying the insta
 
 ## Destroy Environment
 
-If you would like to destroy the environment, run the following commands  from the `/google-cloud-vmseries-builds/architecture-demos/vmseries-hub-spoke-autoscale` directory in Google Cloud shell.
+If you would like to destroy the environment, run the following commands  from the `/google-cloud-vmseries-builds/blueprints/vmseries-hub-spoke-autoscale` directory in Google Cloud shell.
 
 ```
 terraform destroy
