@@ -26,7 +26,7 @@ This [build](https://github.com/wwce/google-cloud-vmseries-builds/tree/main/blue
 This [build](https://github.com/wwce/google-cloud-vmseries-builds/tree/main/blueprints/vmseries-hub-spoke) demonstrates how to use a common set of VM-Series firewalls to secure internet inbound, internet outbound, and east-west traffic for a Google Cloud hub and spoke architecture.  This build focuses on how various traffic flows traverse through the VM-Series firewall (or hub) for Google peered VPC networks (or spokes).  You will also learn how to leverage Google Cloud network load balancers to provide horizontal scale and cross zonal redundancy to your own VM-Series deployments. 
 
 <p align="center">
-    <img src="blueprints/vmseries-hub-spoke-vpc-peering/images/image1.png" width="800">
+    <img src="blueprints/vmseries-hub-spoke-vpc-peering/images/image1.png" width="750">
 </p>
 
 
@@ -36,7 +36,7 @@ This build is the same as the **VM-Series Hub and Spoke - Common Firewalls**, ex
 **Note:  You will need a Panorama instance for this build**
 
 <p align="center">
-    <img src="blueprints/vmseries-hub-spoke-autoscale/images/image1.png" width="800">
+    <img src="blueprints/vmseries-hub-spoke-autoscale/images/image1.png" width="750">
 </p>
 
 ## Support Policy
