@@ -18,8 +18,8 @@ data "google_compute_zones" "main" {
 }
 
 resource "random_string" "main" {
-  length      = 5
-  min_lower   = 5
+  length      = 4
+  min_lower   = 4
   special     = false
 }
 

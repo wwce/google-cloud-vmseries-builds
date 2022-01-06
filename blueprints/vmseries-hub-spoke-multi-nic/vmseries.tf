@@ -79,7 +79,7 @@ module "vmseries" {
 module "intlb_spoke1" {
   source = "../../modules/google_lb_internal/"
 
-  name                = "${local.prefix}-intlb01-vmseries"
+  name                = "${local.prefix}-intlb01-spoke1"
   network             = module.vpc_spoke1.vpc_self_link
   subnetwork          = module.vpc_spoke1.subnet_self_link["spoke1-${var.region}"]
   all_ports           = true
@@ -91,7 +91,7 @@ module "intlb_spoke1" {
 module "intlb_spoke2" {
   source = "../../modules/google_lb_internal/"
 
-  name                = "${local.prefix}-intlb02-vmseries"
+  name                = "${local.prefix}-intlb02-spoke2"
   network             = module.vpc_spoke2.vpc_self_link
   subnetwork          = module.vpc_spoke2.subnet_self_link["spoke2-${var.region}"]
   all_ports           = true
@@ -101,7 +101,7 @@ module "intlb_spoke2" {
 
 // Create default route in each spoke network to their internal LB forwarding rule
 resource "google_compute_route" "spoke1_internal_lb" {
-  name         = "${local.prefix}-spoke1-default"
+  name         = "${local.prefix}-default-spoke1"
   dest_range   = "0.0.0.0/0"
   network      = module.vpc_spoke1.vpc_id
   next_hop_ilb = module.intlb_spoke1.forwarding_rule
@@ -109,7 +109,7 @@ resource "google_compute_route" "spoke1_internal_lb" {
 }
 
 resource "google_compute_route" "spoke2_internal_lb" {
-  name         = "${local.prefix}-spoke2-default"
+  name         = "${local.prefix}-default-spoke2"
   dest_range   = "0.0.0.0/0"
   network      = module.vpc_spoke2.vpc_id
   next_hop_ilb = module.intlb_spoke2.forwarding_rule
