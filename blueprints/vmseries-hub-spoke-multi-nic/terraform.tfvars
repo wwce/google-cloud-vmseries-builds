@@ -1,4 +1,4 @@
-project_id              = "host-4502127"
+project_id              = null
 public_key_path         = "~/.ssh/gcp-demo.pub"
 region                  = "us-east4"
 fw_image_name           = "vmseries-flex-bundle2-1010"

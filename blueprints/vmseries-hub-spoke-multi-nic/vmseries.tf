@@ -73,8 +73,6 @@ module "vmseries" {
   ]
 }
 
-
-
 # --------------------------------------------------------------------------------------------------------------------------
 # Create an internal TCP network load balancer in each spoke network.  Each ILB will use the VM-Series NICs as its backend.
 
@@ -101,7 +99,7 @@ module "intlb_spoke2" {
   backends            = module.vmseries.instance_group_self_links
 }
 
-// Create default route in each spoke VPC network to their internal LB forwarding rule
+// Create default route in each spoke network to their internal LB forwarding rule
 resource "google_compute_route" "spoke1_internal_lb" {
   name         = "${local.prefix}-spoke1-default"
   dest_range   = "0.0.0.0/0"
