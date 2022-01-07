@@ -36,7 +36,6 @@ variable spoke_vm_scopes {
 
 variable cidr_mgmt {}
 variable cidr_untrust {}
-variable cidr_trust {}
 variable cidr_spoke1 {}
 variable cidr_spoke2 {}
 variable spoke_vm_type {}

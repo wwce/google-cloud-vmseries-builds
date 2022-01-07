@@ -3,11 +3,19 @@ output names {
 }
 
 output instance_self_links {
-  value = { for k, v in google_compute_instance.main : k => v.self_link }
+  value = [for k in google_compute_instance.main : k.self_link]
+  
+  #{ for k, v in google_compute_instance.main : k => v.self_link }
 }
 
-output instances {
+output instance_ids {
+  value = [
+    for k in google_compute_instance.main : k.id
+  ]
+}
+output instance {
   value = google_compute_instance.main
+  #value = google_compute_instance.main[each.key].self_link #google_compute_instance.main.self_link
 }
 
 output instance_groups {
