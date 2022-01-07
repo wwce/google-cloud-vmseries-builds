@@ -2,7 +2,7 @@ output names {
   value = { for k, v in google_compute_instance.main : k => v.name }
 }
 
-output self_links {
+output instance_self_links {
   value = { for k, v in google_compute_instance.main : k => v.self_link }
 }
 
