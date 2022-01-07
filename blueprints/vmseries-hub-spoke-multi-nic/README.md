@@ -16,7 +16,9 @@ Palo Alto Networks VM-Series ML-NGFW is the industry-leading virtualized securit
 
 The diagram below shows the blueprint topology.  Everything depicted in the diagram is built with Terraform.  
 
-![alt_text](images/image1.png "image_tooltip")
+<p align="center">
+    <img src="images/image1.png" width="500">
+</p>
 
 _Table 1. VPC Network Description_
 
@@ -62,9 +64,11 @@ In this section, we will deploy the blueprint with Terraform.  Please note, afte
 
 1. Open Google Cloud Shell.
 
-![alt_text](images/image2.png "image_tooltip")
+<p align="center">
+    <img src="images/image2.png" width="500">
+</p>
 
-2. In cloud shell, copy and paste the following to enable the required Google Cloud APIs and to create an SSH key.
+1. In cloud shell, copy and paste the following to enable the required Google Cloud APIs and to create an SSH key.
 
 ```
 gcloud services enable compute.googleapis.com
@@ -84,11 +88,15 @@ terraform apply
 
 4. Verify that the Terraform plan will create 52 resources. Enter `yes` to start the build.
 
-![alt_text](images/image3.png "image_tooltip")
+<p align="center">
+    <img src="images/image3.png" width="500">
+</p>
 
 5. Once the build completes, the following output will be generated.  
 
-![alt_text](images/image4.png "image_tooltip")
+<p align="center">
+    <img src="images/image4.png" width="500">
+</p>
 
 ## Verify Completion 
 
@@ -96,7 +104,9 @@ terraform apply
 
 2. Copy and paste the `VMSERIES01_ACCESS` and `VMSERIES02_ACCESS` output values into separate web browser tabs.
 
-![alt_text](images/image5.png "image_tooltip")
+<p align="center">
+    <img src="images/image5.png" width="500">
+</p>
 
 3. Once you receive the Palo Alto Networks VM-Series login page, use the credentials below to log into the firewalls.
 
@@ -111,23 +121,33 @@ In this section, we will demonstrate internet inbound traffic through the VM-Ser
 
 _Inbound: Client-to-Server Request Path_
 
-![alt_text](images/image6.png "image_tooltip")
+<p align="center">
+    <img src="images/image6.png" width="500">
+</p>
 
 _Inbound: Server-to-Client Response Path_
 
-![alt_text](images/image7.png "image_tooltip")
+<p align="center">
+    <img src="images/image7.png" width="500">
+</p>
 
 1. Copy and paste the `EXT_LB_URL` output value into a web browser.   The URL resolves to an internal web application (spoke1-vm1, 10.1.0.10) hosted in the spoke1 network. 
 
-![alt_text](images/image8.png "image_tooltip")
+<p align="center">
+    <img src="images/image8.png" width="500">
+</p>
 
 2. The `SOURCE IP` value displays the VM-Series interface address in the spoke1 VPC network.  Try refreshing the web-page several times.  The `SOURCE IP` value will eventually change.  This demonstrates the traffic distribution between the external load balancer and the VM-Series firewalls. 
 
-![alt_text](images/image9.png "image_tooltip")
+<p align="center">
+    <img src="images/image9.png" width="500">
+</p>
 
 3. On both VM-Series firewalls, navigate to **Monitor → Traffic**
 
-![alt_text](images/image10.png "image_tooltip")
+<p align="center">
+    <img src="images/image10.png" width="500">
+</p>
 
 4. View your inbound web request in the traffic logs.  Enter the filter below into the log search bar.  This will filter for logs that match the inbound web request. 
 
@@ -137,11 +157,15 @@ _Inbound: Server-to-Client Response Path_
 
 _Traffic Logs vmseries01_
 
-![alt_text](images/image11.png "image_tooltip")
+<p align="center">
+    <img src="images/image11.png" width="500">
+</p>
 
 _Traffic Logs vmseries02_
 
-![alt_text](images/image12.png "image_tooltip")
+<p align="center">
+    <img src="images/image12.png" width="500">
+</p>
 
 
 ## Internet Outbound Traffic
@@ -150,18 +174,24 @@ In this section, we will demonstrate internet outbound traffic from the spoke ne
 
 _Outbound: Client-to-Server Request Path_
 
-![alt_text](images/image13.png "image_tooltip")
+<p align="center">
+    <img src="images/image13.png" width="500">
+</p>
 
 _Outbound: Server-to-Client Response Path_
 
-![alt_text](images/image14.png "image_tooltip")
+<p align="center">
+    <img src="images/image14.png" width="500">
+</p>
 
 
 1. Open an SSH session with the spoke2-vm1 instance.  Copy and paste the `SSH_TO_SPOKE2` output value into cloud shell.  
 
     Similar to the inbound web traffic example, the SSH address is a public IP associated with the external load balancer.  The load balancer will distribute the session to one of the VM-Series firewalls for inspection.
 
-![alt_text](images/image15.png "image_tooltip")
+<p align="center">
+    <img src="images/image15.png" width="500">
+</p>
 
 ```
 Password: Pal0Alt0@123
@@ -187,11 +217,15 @@ traceroute www.paloaltonetworks.com
 
 _Traffic Logs - vmseries01_
 
-![alt_text](images/image16.png "image_tooltip")
+<p align="center">
+    <img src="images/image16.png" width="500">
+</p>
 
 _Traffic Logs vmseries02_
 
-![alt_text](images/image17.png "image_tooltip")
+<p align="center">
+    <img src="images/image17.png" width="500">
+</p>
 
 
 ## East-West Traffic
@@ -200,11 +234,15 @@ Now we will demonstrate east-west inspection for traffic between the spoke VPC n
 
 _East-West: Client-to-Server Request Path_ \
 
-![alt_text](images/image18.png "image_tooltip")
+<p align="center">
+    <img src="images/image18.png" width="500">
+</p>
 
 _East-West: Server-to-Client Response Path_
 
-![alt_text](images/image19.png "image_tooltip")
+<p align="center">
+    <img src="images/image19.png" width="500">
+</p>
 
 1. While logged into the spoke2-vm1, launch a repeat curl to the web service running on spoke1-vm1.
 
@@ -222,11 +260,15 @@ curl http://10.1.0.10/?[1-100]
 
 _Traffic Logs vmseries01_
 
-![alt_text](images/image20.png "image_tooltip")
+<p align="center">
+    <img src="images/image20.png" width="500">
+</p>
 
 _Traffic Logs vmseries02_
 
-![alt_text](images/image21.png "image_tooltip")
+<p align="center">
+    <img src="images/image21.png" width="500">
+</p>
 
 
 ## Destroy Environment
