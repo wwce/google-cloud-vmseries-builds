@@ -149,7 +149,7 @@ output VMSERIES02_ACCESS {
 }
 
 output EXT_LB_URL {
-  value = "https://${module.extlb.ip_addresses["spoke1-web-80"]}"
+  value = "http://${module.extlb.ip_addresses["spoke1-web-80"]}"
 }
 
 output SSH_TO_SPOKE2 {
