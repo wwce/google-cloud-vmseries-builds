@@ -20,6 +20,7 @@ The diagram below shows the blueprint topology.  Everything depicted in the diag
     <img src="images/image1.png" width="500">
 </p>
 
+
 _Table 1. VPC Network Description_
 
 <table>
@@ -68,7 +69,7 @@ In this section, we will deploy the blueprint with Terraform.  Please note, afte
     <img src="images/image2.png" width="500">
 </p>
 
-1. In cloud shell, copy and paste the following to enable the required Google Cloud APIs and to create an SSH key.
+2. In cloud shell, copy and paste the following to enable the required Google Cloud APIs and to create an SSH key.
 
 ```
 gcloud services enable compute.googleapis.com
@@ -119,13 +120,13 @@ Password: Pal0Alt0@123
 
 In this section, we will demonstrate internet inbound traffic through the VM-Series to a web application hosted in spoke1 network.  The inbound request will be distributed by the external TCP/UDP load balancer to one of the VM-Series firewall’s untrust interfaces.  The VM-Series then inspects and applies a destination and source network address translation (NAT) policy to the traffic.  
 
-_Inbound: Client-to-Server Request Path_
+<p align="center"><i>Inbound: Client-to-Server Request</i></p>
 
 <p align="center">
     <img src="images/image6.png" width="500">
 </p>
 
-_Inbound: Server-to-Client Response Path_
+<p align="center"><i>Inbound: Server-to-Client Response</i></p>
 
 <p align="center">
     <img src="images/image7.png" width="500">
@@ -155,13 +156,13 @@ _Inbound: Server-to-Client Response Path_
 ( zone.src eq untrust ) and ( zone.dst eq trust ) and ( app eq web-browsing )
 ```
 
-_Traffic Logs vmseries01_
+<p align="center"><i>Traffic Logs: vmseries01</i></p>
 
 <p align="center">
     <img src="images/image11.png" width="500">
 </p>
 
-_Traffic Logs vmseries02_
+<p align="center"><i>Traffic Logs: vmseries02</i></p>
 
 <p align="center">
     <img src="images/image12.png" width="500">
@@ -172,13 +173,13 @@ _Traffic Logs vmseries02_
 
 In this section, we will demonstrate internet outbound traffic from the spoke networks through the VM-Series firewalls.  Each spoke network has a default route pointing to an internal load balancer that frontends the VM-Series dataplane interfaces (ethernet1/2 and ethernet1/3).  When the VM-Series receives an outbound request, the firewall will inspect and translate the traffic to its untrust interface. 
 
-_Outbound: Client-to-Server Request Path_
+<p align="center"><i>Outbound: Client-to-Server Request</i></p>
 
 <p align="center">
     <img src="images/image13.png" width="500">
 </p>
 
-_Outbound: Server-to-Client Response Path_
+<p align="center"><i>Outbound: Server-to-Client Response</i></p>
 
 <p align="center">
     <img src="images/image14.png" width="500">
@@ -215,13 +216,13 @@ traceroute www.paloaltonetworks.com
 
 5. In this particular example, we can see that vmseries01 received the apt-get request from the internal TCP/UDP load balancer and vmseries02 received the traceroute request.  This demonstrates the load balancing capability between the VM-Series firewall and the Google Cloud internal load balancers.
 
-_Traffic Logs - vmseries01_
+<p align="center"><i>Traffic Logs: vmseries01</i></p>
 
 <p align="center">
     <img src="images/image16.png" width="500">
 </p>
 
-_Traffic Logs vmseries02_
+<p align="center"><i>Traffic Logs: vmseries02</i></p>
 
 <p align="center">
     <img src="images/image17.png" width="500">
@@ -232,13 +233,13 @@ _Traffic Logs vmseries02_
 
 Now we will demonstrate east-west inspection for traffic between the spoke VPC networks.  The east-west flow is identical to the internet outbound flow as described in the previous section.  However, instead of routing the spoke request through the untrust interface, we will route the request through the VM-Series dataplane interface in the adjacent VPC network.  
 
-_East-West: Client-to-Server Request Path_ \
+<p align="center"><i>East-West: Client-to-Server Request</i></p>
 
 <p align="center">
     <img src="images/image18.png" width="500">
 </p>
 
-_East-West: Server-to-Client Response Path_
+<p align="center"><i>East-West: Server-to-Client Response</i></p>
 
 <p align="center">
     <img src="images/image19.png" width="500">
@@ -258,13 +259,13 @@ curl http://10.1.0.10/?[1-100]
 ( addr.src in 10.2.0.10 ) and  ( addr.dst in 10.1.0.10 )
 ```
 
-_Traffic Logs vmseries01_
+<p align="center"><i>Traffic Logs: vmseries01</i></p>
 
 <p align="center">
     <img src="images/image20.png" width="500">
 </p>
 
-_Traffic Logs vmseries02_
+<p align="center"><i>Traffic Logs: vmseries02</i></p>
 
 <p align="center">
     <img src="images/image21.png" width="500">
