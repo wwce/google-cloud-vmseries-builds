@@ -1,18 +1,18 @@
-## VM-Series Blueprint: Hub-and-Spoke with VPC Peering
+# VM-Series Blueprint: Hub-and-Spoke with VPC Peering
 
-### Overview
+## Overview
 
 Palo Alto Networks VM-Series ML-NGFW is the industry-leading virtualized security platform to protect applications and data with next-generation security features in Google Cloud.  In this blueprint, you will use a common set of VM-Series firewalls to secure internet inbound, internet outbound, and east-west traffic for a Google Cloud hub and spoke architecture.  This build focuses on how various traffic flows traverse through the VM-Series firewall (or hub).  You will also learn how to leverage Google Cloud network load balancers to provide horizontal scale and redundancy to your VM-Series deployments. 
 
 
-### Objectives 
+## Objectives 
 
 * Review the VM-Series hub-and-spoke architecture using VPC network peering. 
 * Build the environment using Terraform by Hashicorp.
 * Validate and visualize internet inbound, internet outbound, and east-west (VPC to VPC) traffic flows through Google Cloud load balancers and the VM-Series firewalls.
 
 
-### Topology
+## Topology
 
 The diagram below shoes the topology of the blueprint.  Everything depicted in the diagram is built with Terraform, including the local configuration of the compute resources.  All traffic to/from the spoke VPC networks traverses through the VM-Series firewalls for inpsection.  
 
@@ -286,7 +286,7 @@ curl http://10.1.0.10/?[1-100]
 </p>
 
 
-### Destroy Environment
+## Destroy Environment
 
 If you would like to destroy the environment, enter the following in Google cloud shell.
 
@@ -296,6 +296,6 @@ terraform destroy -auto-approve
 rm ~/.ssh/gcp-demo
 ```
 
-### Conclusion
+## Conclusion
 
 You have completed the architecture blueprint guide.  You have learned how to secure a hub and spoke architecture using the VM-Series and VPC network peering.

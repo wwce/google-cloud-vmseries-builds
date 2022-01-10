@@ -1,18 +1,18 @@
-## VM-Series Blueprint: Hub-and-Spoke with Multi-NIC
+# VM-Series Blueprint: Hub-and-Spoke with Multi-NIC
 
-### Overview
+## Overview
 
 Palo Alto Networks VM-Series ML-NGFW is the industry-leading virtualized security platform to protect applications and data with next-generation security features in Google Cloud.   In this blueprint, you will secure internet inbound, internet outbound, and east-west traffic for two VPC networks using the multi-NIC VM-Series topology.  This topology is ideal for environments where VPC peering cannot be used.
 
 
-### Objectives 
+## Objectives 
 
 * Review the VM-Series multi-NIC architecture. 
 * Build the environment using Terraform by Hashicorp.
 * Validate and visualize internet inbound, internet outbound, and east-west (VPC to VPC) traffic flows through Google Cloud load balancers and the VM-Series firewalls.
 
 
-### Topology
+## Topology
 
 The diagram below shows the blueprint topology.  Everything depicted in the diagram is built with Terraform.  All traffic to/from the spoke VPC networks traverses through the VM-Series firewalls for inpsection. 
 

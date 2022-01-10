@@ -1,7 +1,7 @@
-## VM-Series Blueprint: Layered Security with Cloud IDS
+# VM-Series Blueprint: Layered Security with Cloud IDS
 
 
-### Overview
+## Overview
 
 The VM-Series firewall is the virtualized form factor of the Palo Alto Networks next-generation firewall. It is positioned for use in cloud environments where it can protect and secure east-west and north-south traffic.
 
@@ -10,7 +10,7 @@ Google Cloud IDS (Cloud Intrusion Detection System) is a cloud-native network th
 In this blueprint, you will use the Palo Alto Networks VM-Series ML-NGFW and Google Cloud IDS to provide a layered security approach for a Google Cloud VPC network. Specifically, the VM-Series firewall will provide north-south threat prevention for the VPC network and Cloud IDS will provide east-west threat detection for the same network. 
 
 
-### Objectives 
+## Objectives 
 
 * Review Google Cloud IDS and VM-Series ML-NGFW topology
 * Build the environment using Terraform by Hashicorp
@@ -19,7 +19,7 @@ In this blueprint, you will use the Palo Alto Networks VM-Series ML-NGFW and Goo
 * Detect east/west threats with Google Cloud IDS.
 
 
-### Topology
+## Topology
 
 The diagram below shoes the topology of the blueprint.  Everything depicted in the diagram is built with Terraform, including the local configuration of the compute resources.    From a traffic flow perspective, the green line represents intra-VPC traffic (east/west traffic).  All intra-VPC traffic will be mirrored to the Google Cloud IDS service.  The red line represents inter-VPC traffic (north/south traffic).  All inter-VPC traffic will be routed to the VM-Series ML-NGFW for in-line prevention.  Please note, the log collection and SIEM/SOAR technologies listed in the diagram are not covered in this build. 
 
@@ -28,7 +28,7 @@ The diagram below shoes the topology of the blueprint.  Everything depicted in t
 </p>
 
 
-### Build
+## Build
 
 In this section, we will walk through how to deploy the environment using Terraform. Please note, after the Terraform build completes, the virtual machines may take an additional 10 minutes to finish their boot-up process.
 
@@ -61,7 +61,7 @@ terraform apply
 </p>
 
 
-### Verify Build Completion 
+## Verify Build Completion 
 
 1. The virtual machines in this build can take up to 10 minutes to finish their deployment.  
 
@@ -74,7 +74,7 @@ terraform apply
 </p>
 
 
-### VM-Series Threat Prevention 
+## VM-Series Threat Prevention 
 
 In this section, we will simulate several threats to test the VM-Series threat prevention capabilities for north/south traffic flows.  The first threat is a simple curl command to retrieve the passwords file from a vulnerable Jenkins server.  The second threat is an attempt to download a malicious internet file from an internal Google VM.  Both of these traffic flows traverse through the VM-Series firewall for north-south inspection. 
 
@@ -83,7 +83,7 @@ Tip. You can redisplay your Terraform outputs at anytime by running terraform ou
 ```
 
 
-####  Launch Inbound Threat
+###  Launch Inbound Threat
 
 1. Copy and paste the `URL_attacker` output value into Cloud Shell.  This command will attempt to retrieve the passwords file from a vulnerable web application. 
 
@@ -100,7 +100,7 @@ curl: (56) Recv failure: Connection reset by peer
 The request should fail.  This is because the VM-Series is preventing high risk vulnerabilities through its content inspection engine. 
 
 
-#### Launch Outbound Threat
+### Launch Outbound Threat
 
 1. Copy and paste the `SSH_attacker` output value into Cloud Shell.  This opens a SSH session to the attacker VM (Kali Linux) that runs behind the VM-Series firewall in the shared VPC network.
 
@@ -127,7 +127,7 @@ wget www.eicar.org/download/eicar.com.txt
 The download request should fail.  This is because the VM-Series is preventing malicious file downloads through its content inspection engine. 
 
 
-#### View Threats on VM-Series
+### View Threats on VM-Series
 
 In this section, we will observe the action taken by the VM-Series on the threats attempted in the previous section of this lab. 
 
@@ -163,12 +163,12 @@ Password: Pal0Alt0@123
 </p>
 
  
-### Google Cloud IDS
+## Google Cloud IDS
 
 In this section, we will launch an exploit from our attacker VM to a Jenkins server that reside in the same VPC network.  The VM-Series will not be in-line with this traffic, so we will use Google Cloud IDS to provide advanced threat detection to alert on any observed threats. 
 
 
-#### Attach Traffic Mirror Policy
+### Attach Traffic Mirror Policy
 
 1. In the Google Cloud console, navigate to **Network Security → Cloud IDS**
 
@@ -207,7 +207,7 @@ If your endpoint shows the "cycling" icon, please wait until the endpoint finish
 </p>
 
 
-#### Launch East-West Threat
+### Launch East-West Threat
 
 1. Log into the attacker VM from the previous section of the lab.
 
@@ -318,7 +318,7 @@ head /etc/passwd
 </p>
 
 
-#### View Threats on Cloud IDS
+### View Threats on Cloud IDS
 
 1. Go to the Google Cloud Console.  Click **THREATS** within the Google Cloud IDS dashboard. 
 
@@ -332,7 +332,7 @@ head /etc/passwd
     <img src="images/image29.png" width="500">
 </p>
 
-#### View Cloud IDS Traffic Logs
+### View Cloud IDS Traffic Logs
 
 Cloud IDS can also ingest all traffic logs from the VPC network.  This enables you to gain visibility into application traffic via Layer-7 inspection, details on source and destination addresses, repeat count, threat type, and more.   In this section, we will demonstrate how to view these logs. 
 
@@ -399,7 +399,7 @@ jsonPayload.application="apt-get"
 </p>
 
 
-### Destroy Environment
+## Destroy Environment
 
 If you would like to destroy the environment, enter the following in Google cloud shell.
 
@@ -409,6 +409,6 @@ terraform destroy -auto-approve
 rm ~/.ssh/gcp-demo
 ```
 
-### Conclusion
+## Conclusion
 
 You have completed the architecture blueprint guide.  You have learned how to provide north-south threat prevention with the VM-Series and east-west threat detection with Google Cloud IDS.

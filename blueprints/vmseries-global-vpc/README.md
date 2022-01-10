@@ -1,6 +1,6 @@
-## VM-Series Blueprint: Global VPC with Network Tags
+# VM-Series Blueprint: Global VPC with Network Tags
 
-### Overview
+## Overview
 
 Palo Alto Networks VM-Series ML-NGFW is the industry-leading virtualized security platform to protect applications and data with next-generation security features in Google Cloud.  In this build, VM-Series firewalls are deployed to secure north/south traffic for a single VPC network.  This build also provides guidance on how to leverage network tags to steer traffic to specific internal TCP/UDP load balancers that frontend VM-Series firewalls.  Network tags have a variety of use-cases, including:  
 
@@ -12,14 +12,14 @@ This blueprint specifically focuses on leveraging network tags to isolate region
 
 
 
-### Objectives
+## Objectives
 
 * Secure north-south traffic for a multi-region VPC network (us-east & us-west) with regionally distributed VM-Series firewalls.
 * Use internal TCP/UDP load balancers to distribute traffic to each pair of VM-Series firewalls.  
 * Leverage network tags to prevent cross-region traffic flows. 
 * Modify network tags on an internal Google compute resource to change which firewall pair handles the instance’s outbound traffic. 
 
-### Topology
+## Topology
 
 The diagram below shows the topology of the blueprint.  Everything depicted in the diagram is built through Terraform, including the local configuration of the compute resources.   
 
