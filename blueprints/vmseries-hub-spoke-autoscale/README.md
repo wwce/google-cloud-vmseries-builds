@@ -1,4 +1,4 @@
-## VM-Series Blueprint: Autoscale with Google Cloud Managed Instance Groups
+# VM-Series Blueprint: Autoscale with Google Cloud Managed Instance Groups
 
 
 ### Overview
