@@ -1,12 +1,12 @@
 # VM-Series Blueprint: Autoscale with Managed Instance Groups
 
 
-### Overview
+## Overview
 
 Palo Alto Networks VM-Series ML-NGFW is the industry-leading virtualized security platform to protect applications and data with next-generation security features in Google Cloud.  This build provides guidance on how to leverage Google Cloud managed instance groups and load balancers to autoscale VM-Series firewalls.  Please note, this build requires an existing Panorama appliance (virtual or physical) to bootstrap the VM-Series firewalls.  Panorama provides operational efficiency by centralizing the policy and logging for the autoscaled VM-Series firewalls. We will walk through the baseline configuration of the Panorama device group and template stack.
 
 
-### Build Objectives 
+## Build Objectives 
 
 * Review Google Cloud and VM-Series autoscale architecture.
 * Walk through of Panorama baseline setup for VM-Series firewalls.
@@ -16,7 +16,7 @@ Palo Alto Networks VM-Series ML-NGFW is the industry-leading virtualized securit
 * View and modify PAN-OS metrics delivered to Google Cloud Stackdriver.  
 
 
-### Topology
+## Topology
 
 The diagram below shows the environment we will be building.  Everything depicted in the diagram is built through Terraform. All traffic to/from the spoke VPC networks flows through the VM-Series firewalls for inspection. The VM-Series is deployed into a managed instance group.  This provides the VM-Series the ability to horizontally scale based on PAN-OS metrics delivered to Google Stackdriver.  This build requires an existing Panorama appliance because the VM-Series bootstrap to Panorama to receive their configuration.  
 
