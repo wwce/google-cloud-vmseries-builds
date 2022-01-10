@@ -1,4 +1,4 @@
-## VM-Series Hub-and-Spoke with Multi-NIC Blueprint
+## VM-Series Blueprint: Hub-and-Spoke with Multi-NIC
 
 ### Overview
 

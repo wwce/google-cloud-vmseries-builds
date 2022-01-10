@@ -1,4 +1,4 @@
-# VM-Series Hub-and-Spoke with VPC Peering Blueprint
+## VM-Series Blueprint: Hub-and-Spoke with VPC Peering
 
 ### Overview
 
@@ -87,12 +87,14 @@ ssh-keygen -f ~/.ssh/gcp-demo -t rsa -C gcp-demo
 <span style="color:red">**Note.** If you are using a SSH key name that is different from the `gcp-demo` name, you must modify the `public_key_path` value in your terraform.tfvars file to match the name of the key you created.</span>
 
 3. Copy and paste the following to clone the repository and to apply the Terraform plan.
+
 ```
 git clone https://github.com/wwce/google-cloud-vmseries-builds
 cd google-cloud-vmseries-builds/blueprints/vmseries-hub-spoke-vpc-peering
 terraform init
 terraform apply
 ```
+
 4. Verify that the Terraform plan will create 56 resources. Enter `yes` to start the build.
 
 <p align="center">
@@ -284,7 +286,7 @@ curl http://10.1.0.10/?[1-100]
 </p>
 
 
-## Destroy Environment
+### Destroy Environment
 
 If you would like to destroy the environment, enter the following in Google cloud shell.
 
@@ -294,6 +296,6 @@ terraform destroy -auto-approve
 rm ~/.ssh/gcp-demo
 ```
 
-## Conclusion
+### Conclusion
 
 You have completed the architecture blueprint guide.  You have learned how to secure a hub and spoke architecture using the VM-Series and VPC network peering.

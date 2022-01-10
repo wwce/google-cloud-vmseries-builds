@@ -1,5 +1,4 @@
-# VM-Series Global VPC with Network Tags Blueprint
-
+## VM-Series Blueprint: Global VPC with Network Tags
 
 ### Overview
 
