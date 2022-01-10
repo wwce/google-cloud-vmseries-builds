@@ -1,7 +1,7 @@
 # VM-Series Autoscaling with Google Cloud Managed Instance Groups
 
 
-## Overview
+### Overview
 
 Palo Alto Networks VM-Series ML-NGFW is the industry-leading virtualized security platform to protect applications and data with next-generation security features in Google Cloud.  This build provides guidance on how to leverage Google Cloud managed instance groups and load balancers to autoscale VM-Series firewalls.  Please note, this build requires an existing Panorama appliance (virtual or physical) to bootstrap the VM-Series firewalls.  Panorama provides operational efficiency by centralizing the policy and logging for the autoscaled VM-Series firewalls. We will walk through the baseline configuration of the Panorama device group and template stack.
 
@@ -18,7 +18,7 @@ Palo Alto Networks VM-Series ML-NGFW is the industry-leading virtualized securit
 
 ### Topology
 
-The diagram below shows the lab environment we will be building.  Everything depicted in the diagram is built through Terraform. All traffic to/from the spoke VPC networks flows through the VM-Series firewalls for inspection. The VM-Series is deployed into a managed instance group.  This provides the VM-Series the ability to horizontally scale based on PAN-OS metrics delivered to Google Stackdriver.  This build requires an existing Panorama appliance because the VM-Series bootstrap to Panorama to receive their configuration.  
+The diagram below shows the environment we will be building.  Everything depicted in the diagram is built through Terraform. All traffic to/from the spoke VPC networks flows through the VM-Series firewalls for inspection. The VM-Series is deployed into a managed instance group.  This provides the VM-Series the ability to horizontally scale based on PAN-OS metrics delivered to Google Stackdriver.  This build requires an existing Panorama appliance because the VM-Series bootstrap to Panorama to receive their configuration.  
 
 <p align="center">
     <img src="images/image1.png">
@@ -995,10 +995,11 @@ The instance group’s scaling conditions can be adjusted by modifying the insta
 
 ## Destroy Environment
 
-If you would like to destroy the environment, run the following commands  from the `/google-cloud-vmseries-builds/blueprints/vmseries-hub-spoke-autoscale` directory in Google Cloud shell.
+If you would like to destroy the environment, enter the following in Google cloud shell.
 
 ```
-terraform destroy
+cd google-cloud-vmseries-builds/blueprints/vmseries-hub-spoke-autoscale
+terraform destroy -auto-approve
 rm ~/.ssh/gcp-demo
 ```
 
