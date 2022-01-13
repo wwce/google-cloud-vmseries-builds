@@ -22,16 +22,6 @@ variable disk_type {
   default     = "pd-ssd"
 }
 
-variable bootstrap_bucket {
-  default = ""
-  type    = string
-}
-
-variable ssh_key {
-  default = ""
-  type    = string
-}
-
 variable scopes {
   default = [
     "https://www.googleapis.com/auth/compute.readonly",
@@ -66,8 +56,37 @@ variable tags {
 }
 
 variable metadata {
-  default = {}
-  type    = map(string)
+  description = "Metadata for VM-Series firewall.  Commented examples below show two examples: 1. partial bootstrap to Panorama 2. Full configuration bootstrap from Google storage bucket."
+  default     = {}
+  type        = map(string)
+
+  /* 
+
+  # Partial Bootstrap to Panorama (no dynamic content installed on bootup)
+
+  default = {
+    type                                 = "dhcp-client"
+    op-command-modes                     = "mgmt-interface-swap"
+    vm-auth-key                          = "289932414614775"
+    panorama-server                      = "74.97.22.10"
+    dgname                               = "gcp-autoscale"
+    tplname                              = "gcp-autoscale_stack"
+    dhcp-send-hostname                   = "yes"
+    dhcp-send-client-id                  = "yes"
+    dhcp-accept-server-hostname          = "yes"
+    dhcp-accept-server-domain            = "yes"
+  }
+
+  # Full bootstrap to using Google storage bucket example
+
+  default = {
+    mgmt-interface-swap                  = "enable"
+    vmseries-bootstrap-gce-storagebucket = "my-google-bootstrap-bucket"
+    serial-port-enable                   = true
+    ssh-keys                             = "~/.ssh/vmseries-ssh-key.pub"
+  }
+
+  */
 }
 
 variable metadata_startup_script {

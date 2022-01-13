@@ -1,8 +1,8 @@
-# VM-Series Blueprint: Hub-and-Spoke with VPC Peering
+# VM-Series Blueprint: Standalone VM-Series in Unmanaged Instance Group
 
 ## Overview
 
-This is a simple build that creates a single VM-Series firewall in an unmanaged instance group.  The build creates 3 new VPC networks (management, untrust, and trust) with subnets to host the VM-Series interfaces. 
+This build creates a single VM-Series firewall in an unmanaged instance group.  The build creates 3 new VPC networks (management, untrust, and trust) with subnets to host the VM-Series interfaces. The management network allows TCP/22 and TCP/443 from all source IPs by default.  The source IP address range can be locked down by setting value(s) to the mgmt_sources variable in the terraform.tfvars file. 
 
 
 ## Topology
@@ -39,14 +39,10 @@ terraform init
 terraform apply
 ```
 
-4. Verify that the Terraform plan will create 56 resources. Enter `yes` to start the build.
+4. Verify that the Terraform plan will create `17` resources. Enter `yes` to start the build.
 
-<p align="center">
-    <img src="images/image3.png" width="500">
-</p>
+5. When the build completes, the following output will be displayed.  The outputs provide access to the VM-Series firewall's user interface and terminal console. 
 
-5. The following output will be displayed when the build completes.
+```
 
-<p align="center">
-    <img src="images/image4.png" width="500">
-</p>
+```

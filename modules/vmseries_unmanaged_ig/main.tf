@@ -20,12 +20,7 @@ resource "google_compute_instance" "main" {
   can_ip_forward            = true
   allow_stopping_for_update = true
 
-  metadata = merge({
-    mgmt-interface-swap                  = "enable"
-    vmseries-bootstrap-gce-storagebucket = each.value.bootstrap_bucket
-    serial-port-enable                   = true
-    ssh-keys                             = var.ssh_key
-  }, var.metadata)
+  metadata = var.metadata
 
   service_account {
     email  = var.service_account

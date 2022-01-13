@@ -85,42 +85,32 @@ module "vmseries" {
   machine_type          = var.fw_machine_type
   create_instance_group = true
   project_id            = data.google_client_config.main.project
-  ssh_key               = fileexists(var.public_key_path) ? "admin:${file(var.public_key_path)}" : ""
-  
+
+  metadata = {
+      #mgmt-interface-swap                  = "enable"
+      #vmseries-bootstrap-gce-storagebucket = "my-google-bootstrap-bucket"
+      serial-port-enable                   = true
+      ssh-keys                             = fileexists(var.public_key_path) ? "admin:${file(var.public_key_path)}" : ""
+  }
+
   instances = { 
     vmseries01 = {
       name               = "${random_string.main.result}-vmseries01"
       zone               = data.google_compute_zones.main.names[0]
-      bootstrap_bucket   = module.bootstrap.bucket_name #var.fw_bootstrap_bucket
       network_interfaces = [
         {
           subnetwork = module.vpc_mgmt.subnet_self_link["mgmt-${var.region}"]
           public_nat = true
-          lb = false
         },
         {
           subnetwork = module.vpc_untrust.subnet_self_link["untrust-${var.region}"]
           public_nat = true
-          lb = false
         },
         {
           subnetwork = module.vpc_trust.subnet_self_link["trust-${var.region}"]
           public_nat = false
-          lb = true
         }
       ]
     }
   }
-}
-
-
-
-# --------------------------------------------------------------------------------------------------------------------------
-# Outputs to terminal
-
-output VMSERIES_WEB_ACCESS {
-  value = "https://${module.vmseries.nic0_ips["vmseries01"]}"
-}
-output VMSERIES_SSH_ACCESS {
-  value = "ssh admin@${module.vmseries.nic0_ips["vmseries01"]} -i ${replace(var.public_key_path, ".pub", "")}"
 }

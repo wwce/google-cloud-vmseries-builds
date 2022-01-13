@@ -1,4 +1,4 @@
-project_id              = null
+project_id              = "host-4502127"
 public_key_path         = "~/.ssh/gcp-demo.pub"
 region                  = "us-east4"
 fw_image_name           = "vmseries-bundle2-909"
