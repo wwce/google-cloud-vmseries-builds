@@ -13,7 +13,7 @@ This build creates a single VM-Series firewall in an unmanaged instance group.  
 
 ## Build
 
-In this section, we will deploy the blueprint with Terraform. Please note, after the build completes, the virtual machines will take an additional 10 minutes to finish their boot-up process. 
+To deploy the VM-Series, perform the following. 
 
 1. Open Google cloud shell.
 
@@ -34,15 +34,11 @@ ssh-keygen -f ~/.ssh/gcp-demo -t rsa -C gcp-demo
 
 ```
 git clone https://github.com/wwce/google-cloud-vmseries-builds
-cd google-cloud-vmseries-builds/blueprints/vmseries-hub-spoke-vpc-peering
+cd google-cloud-vmseries-builds/blueprints/vmseries-standalone
 terraform init
 terraform apply
 ```
 
 4. Verify that the Terraform plan will create `17` resources. Enter `yes` to start the build.
 
-5. When the build completes, the following output will be displayed.  The outputs provide access to the VM-Series firewall's user interface and terminal console. 
-
-```
-
-```
+5. When the build completes, the outputs provide access to the VM-Series firewall's user interface and terminal console.
