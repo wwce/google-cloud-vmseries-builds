@@ -66,13 +66,19 @@ module "vmseries" {
   machine_type          = var.fw_machine_type
   create_instance_group = true
   project_id               = data.google_client_config.main.project
-  ssh_key               = fileexists(var.public_key_path) ? "admin:${file(var.public_key_path)}" : ""
   
+
+  metadata = {
+      mgmt-interface-swap                  = "enable"
+      vmseries-bootstrap-gce-storagebucket = module.bootstrap.bucket_name
+      serial-port-enable                   = true
+      ssh-keys                             = fileexists(var.public_key_path) ? "admin:${file(var.public_key_path)}" : ""
+  }
+
   instances = { 
     vmseries01 = {
       name               = "${random_string.main.result}-vmseries01"
       zone               = data.google_compute_zones.main.names[0]
-      bootstrap_bucket   = module.bootstrap.bucket_name #var.fw_bootstrap_bucket
       network_interfaces = [
         {
           subnetwork = module.vpc_untrust.subnet_self_link["untrust-${var.region}"]
@@ -94,7 +100,6 @@ module "vmseries" {
     vmseries02 = {
       name               = "${random_string.main.result}-vmseries02"
       zone               = data.google_compute_zones.main.names[0]
-      bootstrap_bucket   = module.bootstrap.bucket_name #var.fw_bootstrap_bucket
       network_interfaces = [
         {
           subnetwork = module.vpc_untrust.subnet_self_link["untrust-${var.region}"]
