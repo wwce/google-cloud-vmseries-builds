@@ -18,7 +18,7 @@ module "vmseries_region1" {
 
   metadata = {
     mgmt-interface-swap                  = "enable"
-    vmseries-bootstrap-gce-storagebucket = module.bootstrap.bucket_name
+    vmseries-bootstrap-gce-storagebucket = module.bootstrap_region1.bucket_name
     serial-port-enable                   = true
     ssh-keys                             = fileexists(var.public_key_path) ? "admin:${file(var.public_key_path)}" : ""
   }
