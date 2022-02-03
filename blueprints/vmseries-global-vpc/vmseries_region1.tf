@@ -11,11 +11,17 @@ module "bootstrap_region1" {
 
 module "vmseries_region1" {
   source = "../../modules/vmseries_unmanaged_ig/"
-
-  ssh_key      = fileexists(var.public_key_path) ? "admin:${file(var.public_key_path)}" : ""
-  image_name   = var.fw_image_name
-  machine_type = var.fw_machine_type
+  image_name            = var.fw_image_name
+  machine_type          = var.fw_machine_type
   create_instance_group = true
+  project_id               = data.google_client_config.main.project
+
+  metadata = {
+    mgmt-interface-swap                  = "enable"
+    vmseries-bootstrap-gce-storagebucket = module.bootstrap.bucket_name
+    serial-port-enable                   = true
+    ssh-keys                             = fileexists(var.public_key_path) ? "admin:${file(var.public_key_path)}" : ""
+  }
 
   instances = {
 
