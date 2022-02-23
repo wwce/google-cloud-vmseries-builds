@@ -1,6 +1,6 @@
 project_id              = null
 public_key_path         = "~/.ssh/gcp-demo.pub"
-region                  = "us-east4"
+region                  = "us-east1"
 fw_image_name           = "vmseries-flex-bundle2-1010"
 fw_machine_type         = "n1-standard-4"
 mgmt_sources            = ["0.0.0.0/0"]
