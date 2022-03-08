@@ -16,8 +16,8 @@ module "cloud_nat_mgmt" {
 module "cloud_nat_untrust" {
   source = "terraform-google-modules/cloud-nat/google"
   #ersion = "=1.2"
-  name          = "${local.prefix}-mgmt"
-  router        = "${local.prefix}-mgmt"
+  name          = "${local.prefix}-untrust"
+  router        = "${local.prefix}-untrust"
   project_id    = var.project_id
   region        = var.region
   create_router = true
