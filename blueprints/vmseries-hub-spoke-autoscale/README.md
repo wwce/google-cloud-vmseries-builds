@@ -481,7 +481,7 @@ terraform init
 terraform apply
 ```
 
-9. Verify that the Terraform plan will create **52** resources. Enter `yes` to start the build.
+9. Verify that the Terraform plan will create **55** resources. Enter `yes` to start the build.
 
 <p align="center">
     <img src="images/image48.png" width="500">
