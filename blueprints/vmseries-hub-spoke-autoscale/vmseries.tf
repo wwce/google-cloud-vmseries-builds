@@ -1,7 +1,19 @@
 # -----------------------------------------------------------------------------------------------
 # Create cloud NAT in mgmt VPC to provide internet connectivity to Panorama/PANW content servers. 
 
-module "mgmt_cloud_nat" {
+module "cloud_nat_mgmt" {
+  source = "terraform-google-modules/cloud-nat/google"
+  #ersion = "=1.2"
+  name          = "${local.prefix}-mgmt"
+  router        = "${local.prefix}-mgmt"
+  project_id    = var.project_id
+  region        = var.region
+  create_router = true
+  network       = module.vpc_mgmt.vpc_self_link
+}
+
+// Create cloud NAT in untrust VPC to provide outbound connectivity for backend VPC networks
+module "cloud_nat_untrust" {
   source = "terraform-google-modules/cloud-nat/google"
   #ersion = "=1.2"
   name          = "${local.prefix}-mgmt"
@@ -88,7 +100,7 @@ module "autoscale" {
   ssh_key               = fileexists(var.public_key_path) ? "admin:${file(var.public_key_path)}" : ""
   image                 = var.fw_image_uri
   nic0_public_ip        = false
-  nic1_public_ip        = true
+  nic1_public_ip        = false
   nic2_public_ip        = false
   pool                  = module.extlb.target_pool
  # scopes                = ["https://www.googleapis.com/auth/cloud-platform"]
