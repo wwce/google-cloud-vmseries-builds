@@ -8,7 +8,7 @@ module "vpc_spoke1" {
   allowed_sources      = ["0.0.0.0/0"]
 
   subnets = {
-    "spoke1-${var.region}" = {
+    "${local.prefix}-spoke1-${var.region}" = {
       region = var.region,
       cidr   = var.cidr_spoke1
     }
@@ -22,7 +22,7 @@ module "vpc_spoke2" {
   allowed_sources      = ["0.0.0.0/0"]
 
   subnets = {
-    "spoke2-${var.region}" = {
+    "${local.prefix}-spoke2-${var.region}" = {
       region = var.region,
       cidr   = var.cidr_spoke2
     }
@@ -83,7 +83,7 @@ resource "google_compute_instance" "spoke1_vm1" {
   }
 
   network_interface {
-    subnetwork = module.vpc_spoke1.subnet_self_link["spoke1-${var.region}"]
+    subnetwork = module.vpc_spoke1.subnet_self_link["${local.prefix}-spoke1-${var.region}"]
     network_ip = cidrhost(var.cidr_spoke1, 10)
   }
 
@@ -114,7 +114,7 @@ resource "google_compute_instance" "spoke2_vm1" {
   }
 
   network_interface {
-    subnetwork = module.vpc_spoke2.subnet_self_link["spoke2-${var.region}"]
+    subnetwork = module.vpc_spoke2.subnet_self_link["${local.prefix}-spoke2-${var.region}"]
     network_ip = cidrhost(var.cidr_spoke2, 10)
   }
 
