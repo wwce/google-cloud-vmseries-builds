@@ -21,7 +21,7 @@ module "cloud_nat_untrust" {
   project_id    = var.project_id
   region        = var.region
   create_router = true
-  network       = module.vpc_mgmt.vpc_self_link
+  network       = module.vpc_untrust.vpc_self_link
 }
 
 # -----------------------------------------------------------------------------------------------
