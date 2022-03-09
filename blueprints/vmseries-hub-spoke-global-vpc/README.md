@@ -1,4 +1,4 @@
-# VM-Series Blueprint: Global VPC with Network Tags
+# VM-Series Blueprint: Global Hub-and-Spoke with VPC Peering
 
 ## Overview
 
