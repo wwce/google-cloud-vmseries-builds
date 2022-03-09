@@ -1,6 +1,6 @@
 project_id                = null
 public_key_path           = "~/.ssh/gcp-demo.pub"
-fw_image_name             = "vmseries-flex-bundle1-1010"
+fw_image_name             = "vmseries-flex-bundle2-1010"
 authcodes                 = ""
 
 mgmt_sources              = ["0.0.0.0/0"]

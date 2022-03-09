@@ -98,11 +98,17 @@ module "vpc_spoke2" {
 # Create VPC peering connections between spoke networks and the trust network
 
 resource "google_compute_network_peering" "spoke1_to_trust" {
-  name                 = "${local.prefix}-spoke1-to-trust"
-  network              = module.vpc_spoke1.vpc_id
-  peer_network         = module.vpc_trust.vpc_id
-  import_custom_routes = false
-  export_custom_routes = false
+  name                                = "${local.prefix}-spoke1-to-trust"
+  network                             = module.vpc_spoke1.vpc_id
+  peer_network                        = module.vpc_trust.vpc_id
+  import_custom_routes                = false
+  export_custom_routes                = false
+  export_subnet_routes_with_public_ip = false
+  import_subnet_routes_with_public_ip = false
+
+  depends_on = [
+    module.vmseries_region0
+  ]
 }
 
 resource "null_resource" "spoke1_to_trust" {
@@ -112,11 +118,13 @@ resource "null_resource" "spoke1_to_trust" {
 }
 
 resource "google_compute_network_peering" "spoke2_to_trust" {
-  name                 = "${local.prefix}-spoke2-to-trust"
-  network              = module.vpc_spoke2.vpc_id
-  peer_network         = module.vpc_trust.vpc_id
-  import_custom_routes = false
-  export_custom_routes = false
+  name                                = "${local.prefix}-spoke2-to-trust"
+  network                             = module.vpc_spoke2.vpc_id
+  peer_network                        = module.vpc_trust.vpc_id
+  import_custom_routes                = false
+  export_custom_routes                = false
+  export_subnet_routes_with_public_ip = false
+  import_subnet_routes_with_public_ip = false
 
   depends_on = [
     null_resource.spoke1_to_trust
@@ -130,18 +138,19 @@ resource "null_resource" "spoke2_to_trust" {
 }
 
 resource "google_compute_network_peering" "trust_to_spoke1" {
-  name                 = "${local.prefix}-trust-to-spoke1"
-  network              = module.vpc_trust.vpc_id
-  peer_network         = module.vpc_spoke1.vpc_id
-  import_custom_routes = false
-  export_custom_routes = false
+  name                                = "${local.prefix}-trust-to-spoke1"
+  network                             = module.vpc_trust.vpc_id
+  peer_network                        = module.vpc_spoke1.vpc_id
+  import_custom_routes                = false
+  export_custom_routes                = false
+  export_subnet_routes_with_public_ip = false
+  import_subnet_routes_with_public_ip = false
 
   depends_on = [
     null_resource.spoke2_to_trust
   ]
 }
 
-# Prevents API bug with too many concurrent peering connections created at the same time.
 resource "null_resource" "trust_to_spoke1" {
   provisioner "local-exec" {
     command = "echo ${google_compute_network_peering.trust_to_spoke1.id}"
@@ -149,11 +158,13 @@ resource "null_resource" "trust_to_spoke1" {
 }
 
 resource "google_compute_network_peering" "trust_to_spoke2" {
-  name                 = "${local.prefix}-trust-to-spoke2"
-  network              = module.vpc_trust.vpc_id
-  peer_network         = module.vpc_spoke2.vpc_id
-  import_custom_routes = false
-  export_custom_routes = false
+  name                                = "${local.prefix}-trust-to-spoke2"
+  network                             = module.vpc_trust.vpc_id
+  peer_network                        = module.vpc_spoke2.vpc_id
+  import_custom_routes                = false
+  export_custom_routes                = false
+  export_subnet_routes_with_public_ip = false
+  import_subnet_routes_with_public_ip = false
 
   depends_on = [
     null_resource.trust_to_spoke1
@@ -187,9 +198,9 @@ resource "google_compute_route" "spoke2_region0" {
 
 # Spoke1 VPC route to ILB region 1
 resource "google_compute_route" "spoke1_region1" {
-  name       = "${local.prefix_region1}-spoke1-route"
-  dest_range = "0.0.0.0/0"
-  network    = module.vpc_spoke1.vpc_id
+  name         = "${local.prefix_region1}-spoke1-route"
+  dest_range   = "0.0.0.0/0"
+  network      = module.vpc_spoke1.vpc_id
   next_hop_ilb = cidrhost(var.cidrs_trust[1], 10)
   priority     = 1000
   tags         = ["${var.regions[1]}-fw"]
@@ -197,9 +208,9 @@ resource "google_compute_route" "spoke1_region1" {
 
 # Spoke2 VPC route to ILB region 1
 resource "google_compute_route" "spoke2_region1" {
-  name       = "${local.prefix_region1}-spoke2-route"
-  dest_range = "0.0.0.0/0"
-  network    = module.vpc_spoke2.vpc_id
+  name         = "${local.prefix_region1}-spoke2-route"
+  dest_range   = "0.0.0.0/0"
+  network      = module.vpc_spoke2.vpc_id
   next_hop_ilb = cidrhost(var.cidrs_trust[1], 10)
   priority     = 1000
   tags         = ["${var.regions[1]}-fw"]
