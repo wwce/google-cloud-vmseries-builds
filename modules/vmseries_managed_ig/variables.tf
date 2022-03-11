@@ -219,15 +219,15 @@ variable metadata {
 
   /* 
 
-  # Partial Bootstrap to Panorama (no dynamic content installed on bootup)
+  # Bootstrap to Panorama without Google storage bucket.
 
   default = {
     type                                 = "dhcp-client"
     op-command-modes                     = "mgmt-interface-swap"
-    vm-auth-key                          = "289932414614775"
-    panorama-server                      = "74.97.22.10"
-    dgname                               = "gcp-autoscale"
-    tplname                              = "gcp-autoscale_stack"
+    vm-auth-key                          = ""                     // Panorama VM authorization key
+    panorama-server                      = "1.1.1.1"              // Panorama IP
+    dgname                               = "gcp-autoscale"        // Panorama Device Group name
+    tplname                              = "gcp-autoscale_stack"  // Panorama template stack
     dhcp-send-hostname                   = "yes"
     dhcp-send-client-id                  = "yes"
     dhcp-accept-server-hostname          = "yes"
